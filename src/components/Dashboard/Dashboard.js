@@ -2,9 +2,9 @@ import React from "react";
 import {Grid, Container, Segment, Header, Statistic, Icon, Label, Image, Card, Loader, List, Button} from "semantic-ui-react";
 import {TransactionTable} from "../../components/TransactionTable/TransactionTable";
 import SelectorDropdown from "../../components/SelectorDropdown/SelectorDropdown";
-import './Dashboard.scss'
 import { Link } from 'react-router'
 import {amountDisplay} from '../../commons/utils'
+import './Dashboard.scss'
 
 class Dashboard extends React.Component {
 
@@ -13,11 +13,15 @@ class Dashboard extends React.Component {
     transactions: React.PropTypes.array,
     customer: React.PropTypes.shape(),
     mode: React.PropTypes.string.isRequired,
+
+    transactionTags: React.PropTypes.object,
+    tags: React.PropTypes.array,
+    tagSuggestions: React.PropTypes.array
   };
 
   render () {
 
-    const {customer, balance, transactions, mode} = this.props;
+    const {customer, balance, transactions, mode, transactionTags, tags, tagSuggestions} = this.props;
 
     const {firstName} = customer;
 
@@ -68,8 +72,14 @@ class Dashboard extends React.Component {
             <Label as='a' color='green' size="huge" ribbon={true}>Transactions</Label>
             <Label as='a' className='tierLabel'>Tier 1</Label>
                 <SelectorDropdown mode={mode}/>
-            <br/>
-            {transactions ?  <TransactionTable transactions={transactions}/> : <Loader/>}
+              <br />
+            { transactions
+              ? <TransactionTable
+                  transactions={transactions}
+                  transactionTags={transactionTags}
+                  tags={tags}
+                  tagSuggestions={tagSuggestions} />
+              : <Loader/> }
           </Segment>
         </Container>
       </div>
