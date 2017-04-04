@@ -71,15 +71,13 @@ class Dashboard extends React.Component {
           <Segment raised>
             <Label as='a' color='green' size="huge" ribbon={true}>Transactions</Label>
             <Label as='a' className='tierLabel'>Tier 1</Label>
-                <SelectorDropdown mode={mode}/>
-              <br />
-            { transactions
-              ? <TransactionTable
-                  transactions={transactions}
-                  transactionTags={transactionTags}
-                  tags={tags}
-                  tagSuggestions={tagSuggestions} />
-              : <Loader/> }
+              <SelectorDropdown/>
+              <br/>
+              <TransactionTable
+                transactions={transactions}
+                transactionTags={transactionTags}
+                tags={tags}
+                tagSuggestions={tagSuggestions} />
           </Segment>
         </Container>
       </div>

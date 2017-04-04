@@ -49,20 +49,17 @@ class PersonalAccessView extends React.Component {
     return (
       <Grid>
         <br/>
-
-        { loading
-          ? <Loading/>
-          : ( transactions && balance
-              ? <Dashboard
-                  mode={'Personal Access'}
-                  customer={customer}
-                  transactions={transactions}
-                  balance={balance}
-                  transactionTags={transactionTags}
-                  tags={tags}
-                  tagSuggestions={tagSuggestions} />
-              : <AnonymousProfile /> ) }
-
+        {loading ? <Loading/>
+          : ( transactions && balance ?
+            <Dashboard
+              mode={'Personal Access'}
+              customer={customer}
+              transactions={transactions}
+              balance={balance}
+              transactionTags={transactionTags}
+              tags={tags}
+              tagSuggestions={tagSuggestions}
+            /> : <AnonymousProfile />)}
         {error && error === 'access_denied' ? <UserDenied/> : null}
       </Grid>
     )
