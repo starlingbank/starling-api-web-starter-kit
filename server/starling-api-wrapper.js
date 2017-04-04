@@ -14,11 +14,7 @@ const resolveWithJsonAtPath = (log, promise, res, path) => {
       res.json(_.get(response, path, []));
     })
     .catch((e) => {
-      debug('Error getting', log);
-      debug(e.data.error);
-      debug(e.status);
-      debug(e.data.error_description);
-      debug(' ');
+      debug('Error getting', log, { status: e.status, error: e.data.error, description: e.data.error_description });
       return res.status(403).send(e.data.error);
     });
 };

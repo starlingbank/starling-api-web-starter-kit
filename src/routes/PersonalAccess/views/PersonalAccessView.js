@@ -4,6 +4,7 @@ import {Loader, Message, Statistic, Grid, Container, Segment, Header, Image, Ico
 import Dashboard from '../../../components/Dashboard/Dashboard'
 import UserDenied from "../../../components/UserDenied/UserDenied";
 import {Link} from 'react-router'
+import './PersonalAccessView.scss'
 
 class PersonalAccessView extends React.Component {
 
@@ -48,11 +49,18 @@ class PersonalAccessView extends React.Component {
     return (
       <Grid>
         <br/>
-
-        {loading ? <Loading/>
-          : ( balance ?
-            <Dashboard mode={'Personal Access'} customer={customer} transactions={transactions} balance={balance}/>
-            : <AnonymousProfile />)}
+        { loading
+          ? <Loading/>
+          : ( transactions && balance
+              ? <Dashboard
+                  mode={'Personal Access'}
+                  customer={customer}
+                  transactions={transactions}
+                  balance={balance}
+                  transactionTags={transactionTags}
+                  tags={tags}
+                  tagSuggestions={tagSuggestions} />
+              : <AnonymousProfile /> ) }
         {error && error === 'access_denied' ? <UserDenied/> : null}
       </Grid>
     )
@@ -68,8 +76,7 @@ const Loading = () => {
 const AnonymousProfile = () => {
   return (
     <Container>
-      <Link to="/">
-        <Button>{`< Back`}</Button> </Link>
+      <Link to="/"><Button>{`< Back`}</Button> </Link>
       <Segment size="large" textAlign="center">
         <Header as="h2" icon={true}>
           <Icon name="warning sign"/>

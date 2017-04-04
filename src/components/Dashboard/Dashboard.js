@@ -72,17 +72,14 @@ class Dashboard extends React.Component {
             <Label as='a' color='green' size="huge" ribbon={true}>Transactions</Label>
             <Label as='a' className='tierLabel'>Tier 1</Label>
                 <SelectorDropdown mode={mode}/>
-            <br/>
-<<<<<<< HEAD
-            {transactions ?  <TransactionTable transactions={transactions}/> : <Loader/>}
-=======
-            <TransactionTable
-              transactions={transactions}
-              transactionTags={transactionTags}
-              tags={tags}
-              tagSuggestions={tagSuggestions}
-              />
->>>>>>> Mini tagging app. Testing the SDK. Having fun.
+            <br />
+            { transactions
+              ? <TransactionTable
+                  transactions={transactions}
+                  transactionTags={transactionTags}
+                  tags={tags}
+                  tagSuggestions={tagSuggestions} />
+              : <Loader/> }
           </Segment>
         </Container>
       </div>

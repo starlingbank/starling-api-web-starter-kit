@@ -34,7 +34,6 @@ const TransactionItem = ({transaction, transactionTags, tags, tagSuggestions}) =
   const displayBalance = transaction.balance ? amountDisplay(transaction.balance, transaction.currency) : null;
   const displayAmount = amountDisplay(transaction.amount, transaction.currency);
   const displaySource = lookup(transaction.source).in(sourceDisplay).orDefault('Other');
-
   return <tr>
     <td style={{textAlign: 'center'}}>
       <Icon size="large" name={itemClass} style={{textAlign: 'center'}}/>
