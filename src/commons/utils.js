@@ -48,7 +48,6 @@ export const lookup = key => {
   }
 };
 
-
 export const amountDisplay = (amount, currency) => {
   const currencySymbol = lookup(currency).in(currencySymbols).orDefault('£');
     if (amount < 0) {
