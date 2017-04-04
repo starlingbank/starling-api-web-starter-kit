@@ -1,6 +1,6 @@
 import React from "react";
 import URLSearchParams from "url-search-params";
-import {Loader, Message, Statistic, Grid, Container, Segment, Header, Image, Icon, Label} from 'semantic-ui-react'
+import {Loader, Message, Button, Statistic, Grid, Container, Segment, Header, Image, Icon, Label} from 'semantic-ui-react'
 import Dashboard from "../../../components/Dashboard/Dashboard";
 import UserDenied from "../../../components/UserDenied/UserDenied"
 import {Link} from 'react-router'
