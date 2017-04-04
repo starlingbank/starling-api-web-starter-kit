@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
+import 'react-select/dist/react-select.css';
 
 class AppContainer extends Component {
   static propTypes = {

@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const moment = require('moment');
 const debug = require('debug')('app:starling-api-wrapper');
 const axios = require('axios');
 const config = require('./example-app-config');
@@ -14,13 +15,13 @@ const resolveWithJsonAtPath = (log, promise, res, path) => {
       res.json(_.get(response, path, []));
     })
     .catch((e) => {
-    debug(e)
+      debug(e);
       debug('Error getting', log);
       return res.status(403).send(e.data.error);
     });
 };
 
-const transactions = (req, res, client, accessToken) => resolveWithJsonAtPath('my transactions', client.getTransactions(req.query.fromDate = undefined, req.query.toDate = undefined, req.query.source, accessToken), res, 'data._embedded.transactions');
+const transactions = (req, res, client, accessToken) => resolveWithJsonAtPath('my transactions', client.getTransactions(accessToken, req.query.fromDate = '2016-03-01', req.query.toDate = moment().format('YYYY-MM-DD'), req.query.source), res, 'data._embedded.transactions');
 const balance = (req, res, client, accessToken) => resolveWithJsonAtPath('my balance', client.getBalance(accessToken), res, 'data');
 const customer = (req, res, client, accessToken) => resolveWithJsonAtPath('my customer', client.getCustomer(accessToken), res, 'data');
 
