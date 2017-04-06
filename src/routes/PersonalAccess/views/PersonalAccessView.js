@@ -5,6 +5,8 @@ import Dashboard from "../../../components/Dashboard/Dashboard";
 import UserDenied from "../../../components/UserDenied/UserDenied"
 import {Link} from 'react-router'
 import './PersonalAccessView.scss'
+import QuickTable from '../../../components/QuickTable';
+import {transactionsProjection, transactionsSelection, transactionsWithTagsProjection, transactionsWithTagsSelection} from '../../../components/TransactionTable/TransactionTable';
 
 class PersonalAccessView extends React.Component {
 
@@ -49,19 +51,29 @@ class PersonalAccessView extends React.Component {
     return (
       <Grid>
         <br/>
-        { loading
-          ? <Loading/>
-          : ( transactions && balance
-              ? <Dashboard
-                  mode={'Personal Access'}
-                  customer={customer}
-                  transactions={transactions}
-                  balance={balance}
-                  transactionTags={transactionTags}
-                  tags={tags}
-                  tagSuggestions={tagSuggestions} />
-              : <AnonymousProfile /> ) }
+
+        {loading ? <Loading/> : null}
+
+        {!loading && balance
+          ? <Dashboard
+              mode={'Personal Access'}
+              customer={customer}
+              transactions={transactions}
+              balance={balance}>
+
+              { transactions && transactions.length
+                ? <QuickTable
+                    projection={transactionsWithTagsProjection}
+                    selection={transactionsWithTagsSelection}
+                    items={transactions}
+                    context={{transactionTags, tags, tagSuggestions}} />
+                : <Loading/> }
+
+            </Dashboard>
+          : <AnonymousProfile /> }
+
         {error && error === 'access_denied' ? <UserDenied/> : null}
+
       </Grid>
     )
   }

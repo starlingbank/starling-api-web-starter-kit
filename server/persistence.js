@@ -1,7 +1,11 @@
 const _ = require('lodash');
 const loki = require('lokijs');
 const debug = require('debug')('app:persistence');
+<<<<<<< HEAD
 const config = require('./config');
+=======
+const config = require('./example-app-config');
+>>>>>>> Transaction Tagging for use with personal access token.
 
 // Quick ref to collection references
 const transactionTags = (db) => db.getCollection('transactionTags');
@@ -13,7 +17,11 @@ const getTransactionTags = (db, transactionUid) => {
 };
 
 const getTransactionsTags = (db) => {
+<<<<<<< HEAD
   // TODO - query by created date range (ensure created date is indexed)
+=======
+  // TODO - query by created date range
+>>>>>>> Transaction Tagging for use with personal access token.
   return transactionTags(db).data;
 };
 
@@ -115,7 +123,7 @@ const initialise = (cb) => {
     cb(db);
   };
 
-  const db = new loki('../tag-database.json', {
+  const db = new loki(config.personalTagStore || '../personal-tag-database.json', {
     autoload: true,
     autoloadCallback: autoLoadHandler,
     autosave: true,

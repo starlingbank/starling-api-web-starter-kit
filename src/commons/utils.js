@@ -56,3 +56,12 @@ export const amountDisplay = (amount, currency) => {
       return currencySymbol + (amount).toFixed(2).toString();
     }
 };
+
+import _ from 'lodash';
+
+export const joinClasses = (...classes) => {
+  const nonBlank = _.filter(classes, (clazz) => !!clazz);
+  return _.join(nonBlank, ' ');
+};
+
+export const defaultTo = (fn, def) => (a, b, c, d, e, f, g) => fn(a, b, c, d, e, f, g) || def;
