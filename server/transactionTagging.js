@@ -44,20 +44,20 @@ export const start = (app) => {
     withDb(req, res, () => {
       const {transactionUid, tagName} = req.params;
       debug('DELETE transaction tag', transactionUid, tagName);
-      persistence.removeTransactionTag(db, transaction.transactionUid, tagName);
+      persistence.removeTransactionTag(db, transactionUid, tagName);
       res.end();
     });
   });
 
   /**
-   * Get tags for a transaction
+   * Get tags for a transaction { transactionUid: '...', created: '...', tags: [] }
    */
   app.get('/api/my/transaction-tags/:transactionUid/tags', (req, res) => {
     withDb(req, res, () => {
       const {transactionUid} = req.params;
       debug('GET transaction tags', transactionUid);
       const transactionTags = persistence.getTransactionTags(db, transactionUid);
-      res.json(transactionTags.tags);
+      res.json(transactionTags);
     });
   });
 

@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const loki = require('lokijs');
 const debug = require('debug')('app:persistence');
+const config = require('./example-app-config');
 
 // Quick ref to collection references
 const transactionTags = (db) => db.getCollection('transactionTags');
@@ -12,8 +13,7 @@ const getTransactionTags = (db, transactionUid) => {
 };
 
 const getTransactionsTags = (db) => {
-  // TODO - query by created date range (ensure created date is indexed)
-  // Probably a where?
+  // TODO - query by created date range
   return transactionTags(db).data;
 };
 
@@ -116,7 +116,7 @@ const initialise = (cb) => {
     cb(db);
   };
 
-  const db = new loki('../tag-database.json', {
+  const db = new loki(config.personalTagStore || '../personal-tag-database.json', {
     autoload: true,
     autoloadCallback: autoLoadHandler,
     autosave: true,

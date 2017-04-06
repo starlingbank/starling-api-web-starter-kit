@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {getBalance, getTransactions, getCustomer} from '../../../service/personalApiService';
 import {addTransactionTag as addTransactionTagService,
         removeTransactionTag as removeTransactionTagService,
@@ -18,6 +19,7 @@ const gotTransactionTags = createAction(GOT_TRANSACTION_TAGS);
 const gotTags = createAction(GOT_TAGS);
 const gotTagsLike = createAction(GOT_TAGS_LIKE);
 
+// TODO - Cascade the delete into the tags and tagSuggestions collections too
 export const deleteTransactionTag = (transaction, tagToRemove) => (dispatch) => {
   return removeTransactionTagService(transaction, tagToRemove)
     .then(() => dispatch(getTransactionTags(transaction)))
@@ -26,7 +28,10 @@ export const deleteTransactionTag = (transaction, tagToRemove) => (dispatch) => 
 
 export const addTransactionTag = (transaction, tagToAdd) => (dispatch) => {
   return addTransactionTagService(transaction, tagToAdd)
-    .then(() => dispatch(getTransactionTags(transaction))) // TODO - update the tags too
+    .then(() => {
+      dispatch(getTransactionTags(transaction));
+      dispatch(getTags(tagToAdd));
+    })
     .catch((err) => console.error('Erorr adding tag to transaction', transaction, tagToAdd, err));
 };
 
@@ -38,15 +43,18 @@ export const getTransactionsTags = () => (dispatch) => {
 
 export const getTransactionTags = (transaction) => (dispatch) => {
   return getTransactionTagsService(transaction)
-    .then((json) => dispatch(gotTransactionTags(json)))
+    .then((json) => dispatch(gotTransactionTags({transaction, latestTransactionTags: json})))
     .catch((err) => console.error('Error getting transaction tags', transaction, err));
 };
 
-// TODO - Call this from addTransactionTag with optional arg, the new tag, and only actually fetch the tag list if the new tag is not already in the list we have cached here
-export const getTags = () => (dispatch) => {
-  return getTagsService()
-    .then((json) => dispatch(gotTags(json)))
-    .catch((err) => console.error('Error getting tags', err));
+export const getTags = (newTag) => (dispatch, getState) => {
+  const existingTags = getState().personalAccess.tags;
+  console.debug('getTags :: existingTags is', existingTags, 'new tag to add is', newTag);
+  if (existingTags.indexOf(newTag) === -1) {
+    return getTagsService()
+      .then((json) => dispatch(gotTags(json)))
+      .catch((err) => console.error('Error getting tags', err));
+  }
 };
 
 // TODO - use this - async load this when tags selector is focussed
@@ -165,10 +173,17 @@ export default handleActions({
     console.debug('GOT_TRANSACTIONS_TAGS', action.payload);
     return Object.assign({}, state, {transactionTags: action.payload});
   },
-  // TODO - update the store's list of tags for the given transaction
   [GOT_TRANSACTION_TAGS]: (state, action) => {
-    console.debug('GOT_TRANSACTION_TAGS', action.payload);
-    return state;
+    console.debug('GOT_TRANSACTION_TAGS reducing payload', action.payload);
+    if (action.payload.latestTransactionTags) {
+      const {transactionUid, tags} = action.payload.latestTransactionTags;
+      console.debug('updating transactiontag with new tag set');
+      return Object.assign({}, state, {transactionTags: _.assign({}, state.transactionTags, {[transactionUid]: action.payload.latestTransactionTags.tags})});
+    } else {
+      // Remove it
+      console.debug('removing transactiontag now having 0 tags');
+      return Object.assign({}, state, {transactionTags: _.omit(state.transactionTags, action.payload.transaction.transactionUid)});
+    }
   },
   [GOT_TAGS]: (state, action) => {
     console.debug('GOT_TAGS', action.payload);
