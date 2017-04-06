@@ -31,33 +31,44 @@ class Dashboard extends React.Component {
 
       <Header as="h2" style={{fontSize: "2rem"}} textAlign="left" content={name} inverted/>
 
-        <Grid>
-          {/*Balance UI*/}
-          <Grid.Column>
-            <Container style={{margin: '10px 5px 20px 5px'}}>
-              <Segment raised style={{maxWidth: '550px', margin: "0 auto", minHeight: "200px"}}>
-                <Label color='blue' size="huge" ribbon={true}>Balance</Label>
-                <Label className='tierLabel'>Tier 1</Label>
-                <Container textAlign="center">
-                  {balance ?  <Balance balance={balance}/> : <Loader/>}
-                </Container>
-              </Segment>
-            </Container>
-          </Grid.Column>
-        </Grid>
+      <Grid columns={2}>
+        {/*Customer UI*/}
+        <Grid.Column>
+          <Container style={{margin: '10px 5px 20px 5px'}}>
+            <Segment raised style={{maxWidth: '500px', margin: "0 auto", minHeight: "200px"}}>
+              <Label as='a' color='orange' size="huge" ribbon={true}>Account Details</Label>
+              <Label as='a' className='tierLabel'>Tier 2</Label>
+              <br/>
+              {customer ? <CustomerDetails customer={customer}/> : <Loader/>}
+            </Segment>
+          </Container>
+        </Grid.Column>
 
-        {/*Transaction UI*/}
-        <Container>
-          <Segment raised>
-            <Label as='a' color='green' size="huge" ribbon={true}>Transactions</Label>
-            <Label as='a' className='tierLabel'>Tier 1</Label>
-                <SelectorDropdown mode={mode}/>
-            <br />
+        {/*Balance UI*/}
+        <Grid.Column>
+          <Container style={{margin: '10px 5px 20px 5px'}}>
+            <Segment raised style={{maxWidth: '550px', margin: "0 auto", minHeight: "200px"}}>
+              <Label color='blue' size="huge" ribbon={true}>Balance</Label>
+              <Label className='tierLabel'>Tier 1</Label>
+              <Container textAlign="center">
+                {balance ?  <Balance balance={balance}/> : <Loader/>}
+              </Container>
+            </Segment>
+          </Container>
+        </Grid.Column>
+      </Grid>
+
+      {/*Transaction UI*/}
+      <Container>
+        <Segment raised>
+          <Label as='a' color='green' size="huge" ribbon={true}>Transactions</Label>
+          <Label as='a' className='tierLabel'>Tier 1</Label>
+            <SelectorDropdown />
+            <br/>
             { this.props.children || null }
-          </Segment>
-        </Container>
-
-      </div>;
+        </Segment>
+      </Container>
+    </div>;
   }
 }
 
