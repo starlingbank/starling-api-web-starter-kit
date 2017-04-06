@@ -44,6 +44,27 @@ class PersonalAccessView extends React.Component {
     window.location.href = ('/api/logout')
   }
 
+  renderDashboard() {
+    const {loading, transactions, balance, customer, transactionTags, tags, tagSuggestions} = this.props.personalAccess;
+    if (balance && transactions && customer) {
+      return <Dashboard
+               mode={'Personal Access'}
+              customer={customer}
+              transactions={transactions}
+              balance={balance}>
+              { transactions.length
+                ? <QuickTable
+                    projection={transactionsWithTagsProjection}
+                    selection={transactionsWithTagsSelection}
+                    items={transactions}
+                    context={{transactionTags, tags, tagSuggestions}} />
+                : <p>No transactions on record.</p> }
+      </Dashboard>;
+    } else {
+      return <Loading />;
+    }
+  }
+
   render () {
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
@@ -51,29 +72,8 @@ class PersonalAccessView extends React.Component {
     return (
       <Grid>
         <br/>
-
-        {loading ? <Loading/> : null}
-
-        {!loading && balance
-          ? <Dashboard
-              mode={'Personal Access'}
-              customer={customer}
-              transactions={transactions}
-              balance={balance}>
-
-              { transactions && transactions.length
-                ? <QuickTable
-                    projection={transactionsWithTagsProjection}
-                    selection={transactionsWithTagsSelection}
-                    items={transactions}
-                    context={{transactionTags, tags, tagSuggestions}} />
-                : <Loading/> }
-
-            </Dashboard>
-          : <AnonymousProfile /> }
-
+        {loading ? <Loading/> : this.renderDashboard() }
         {error && error === 'access_denied' ? <UserDenied/> : null}
-
       </Grid>
     )
   }
@@ -85,6 +85,8 @@ const Loading = () => {
   );
 };
 
+// TODO - Not clear when to use this. Presumably if we get 400s back from server when requesting customer/balance/transactions.
+//        Feels like we need richer redux store / app state to represent this scenario
 const AnonymousProfile = () => {
   return (
     <Container>
