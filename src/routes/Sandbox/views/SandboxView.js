@@ -4,6 +4,8 @@ import {Loader, Grid, Button, Header, Container, Message, Segment, Icon} from "s
 import Dashboard from "../../../components/Dashboard/Dashboard";
 import {Link} from 'react-router'
 import UserDenied from '../../../components/UserDenied/UserDenied'
+import QuickTable from '../../../components/QuickTable';
+import {transactionsProjection, transactionsSelection} from '../../../components/TransactionTable/TransactionTable';
 
 class SandboxView extends React.Component {
 
@@ -34,7 +36,9 @@ class SandboxView extends React.Component {
         <br/>
         {loading ? <Loading/>
           : ( transactions && balance && customer ?
-            <Dashboard mode={'Sandbox'} customer={customer} transactions={transactions} balance={balance}/> :
+            <Dashboard mode={'Sandbox'} customer={customer} transactions={transactions} balance={balance}>
+              <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions} />
+            </Dashboard> :
             <AnonymousProfile />)}
         {error && error === 'access_denied' ? <UserDenied/> : null}
       </Grid>

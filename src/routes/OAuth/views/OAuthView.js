@@ -5,6 +5,8 @@ import connect from '../../../assets/Oauth-button.png'
 import Dashboard from '../../../components/Dashboard/Dashboard'
 import { Link } from 'react-router'
 import UserDenied from '../../../components/UserDenied/UserDenied'
+import QuickTable from '../../../components/QuickTable';
+import {transactionsProjection, transactionsSelection} from '../../../components/TransactionTable/TransactionTable';
 
 const onConnectStarling = () => {
   window.location.href = '/api/oauth/login';
@@ -39,7 +41,9 @@ class OAuthView extends React.Component {
         <br/>
         {loading ? <Loading/>
           : ( transactions && balance ?
-            <Dashboard mode={'Production'} customer={customer} transactions={transactions} balance={balance}/> : <AnonymousProfile />)}
+            <Dashboard mode={'Production'} customer={customer} transactions={transactions} balance={balance}>
+              <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions} />
+            </Dashboard> : <AnonymousProfile />)}
         {error && error === 'access_denied' ? <UserDenied/> : null}
       </Grid>
     )

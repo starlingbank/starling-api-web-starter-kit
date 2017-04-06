@@ -1,10 +1,9 @@
 import React from "react";
 import {Grid, Container, Segment, Header, Statistic, Icon, Label, Image, Card, Loader, List, Button} from "semantic-ui-react";
-import {TransactionTable} from "../../components/TransactionTable/TransactionTable";
 import SelectorDropdown from "../../components/SelectorDropdown/SelectorDropdown";
-import './Dashboard.scss'
 import { Link } from 'react-router'
 import {amountDisplay} from '../../commons/utils'
+import './Dashboard.scss'
 
 class Dashboard extends React.Component {
 
@@ -13,6 +12,7 @@ class Dashboard extends React.Component {
     transactions: React.PropTypes.array,
     customer: React.PropTypes.shape(),
     mode: React.PropTypes.string.isRequired,
+    children: React.PropTypes.element
   };
 
   render () {
@@ -23,57 +23,52 @@ class Dashboard extends React.Component {
 
     const name = firstName ? firstName + "'s Account" : "Your Account";
 
-
-    return (
-      <div style={{margin: '50px', maxWidth:'970px'}}>
-
-        <Grid.Row>
-          <Link to="/">
-            <Button>{`< Back`}</Button> </Link>
+    return <div style={{margin: '50px', maxWidth:'970px'}}>
+      <Grid.Row>
+        <Link to="/"><Button>{`< Back`}</Button></Link>
         <Header as="h1" style={{fontSize: "3rem"}}  textAlign="left" content={mode} inverted dividing={true}/>
+      </Grid.Row>
 
-        </Grid.Row>
-        <Header as="h2" style={{fontSize: "2rem"}} textAlign="left" content={name} inverted/>
+      <Header as="h2" style={{fontSize: "2rem"}} textAlign="left" content={name} inverted/>
 
-        <Grid columns={2}>
+      <Grid columns={2}>
+        {/*Customer UI*/}
+        <Grid.Column>
+          <Container style={{margin: '10px 5px 20px 5px'}}>
+            <Segment raised style={{maxWidth: '500px', margin: "0 auto", minHeight: "200px"}}>
+              <Label as='a' color='orange' size="huge" ribbon={true}>Account Details</Label>
+              <Label as='a' className='tierLabel'>Tier 2</Label>
+              <br/>
+              {customer ? <CustomerDetails customer={customer}/> : <Loader/>}
+            </Segment>
+          </Container>
+        </Grid.Column>
 
-          {/*Customer UI*/}
-          <Grid.Column>
-            <Container style={{margin: '10px 5px 20px 5px'}}>
-              <Segment raised style={{maxWidth: '500px', margin: "0 auto", minHeight: "200px"}}>
-                <Label as='a' color='orange' size="huge" ribbon={true}>Account Details</Label>
-                <Label as='a' className='tierLabel'>Tier 2</Label>
-                <br/>
-                {customer ? <CustomerDetails customer={customer}/> : <Loader/>}
-              </Segment>
-            </Container>
-          </Grid.Column>
+        {/*Balance UI*/}
+        <Grid.Column>
+          <Container style={{margin: '10px 5px 20px 5px'}}>
+            <Segment raised style={{maxWidth: '550px', margin: "0 auto", minHeight: "200px"}}>
+              <Label color='blue' size="huge" ribbon={true}>Balance</Label>
+              <Label className='tierLabel'>Tier 1</Label>
+              <Container textAlign="center">
+                {balance ?  <Balance balance={balance}/> : <Loader/>}
+              </Container>
+            </Segment>
+          </Container>
+        </Grid.Column>
+      </Grid>
 
-          {/*Balance UI*/}
-          <Grid.Column>
-            <Container style={{margin: '10px 5px 20px 5px'}}>
-              <Segment raised style={{maxWidth: '550px', margin: "0 auto", minHeight: "200px"}}>
-                <Label color='blue' size="huge" ribbon={true}>Balance</Label>
-                <Label className='tierLabel'>Tier 1</Label>
-                <Container textAlign="center">
-                  {balance ?  <Balance balance={balance}/> : <Loader/>}
-                </Container>
-              </Segment>
-            </Container>
-          </Grid.Column>
-        </Grid>
-        {/*Transaction UI*/}
-        <Container>
-          <Segment raised>
-            <Label as='a' color='green' size="huge" ribbon={true}>Transactions</Label>
-            <Label as='a' className='tierLabel'>Tier 1</Label>
-                <SelectorDropdown mode={mode}/>
+      {/*Transaction UI*/}
+      <Container>
+        <Segment raised>
+          <Label as='a' color='green' size="huge" ribbon={true}>Transactions</Label>
+          <Label as='a' className='tierLabel'>Tier 1</Label>
+            <SelectorDropdown />
             <br/>
-            {transactions ?  <TransactionTable transactions={transactions}/> : <Loader/>}
-          </Segment>
-        </Container>
-      </div>
-    );
+            { this.props.children || null }
+        </Segment>
+      </Container>
+    </div>;
   }
 }
 

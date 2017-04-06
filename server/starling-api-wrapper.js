@@ -1,8 +1,8 @@
 const _ = require('lodash');
+const moment = require('moment');
 const debug = require('debug')('app:starling-api-wrapper');
 const axios = require('axios');
 const config = require('./config');
-const persistence = require('./persistence');
 
 const REFRESH_TOKEN_EARLY_OFFSET_SECS = 10;
 const REFRESH_TOKEN_GRANT_TYPE = 'refresh_token';
@@ -14,16 +14,12 @@ const resolveWithJsonAtPath = (log, promise, res, path) => {
       res.json(_.get(response, path, []));
     })
     .catch((e) => {
-      debug('Error getting', log);
-      debug(e.data.error);
-      debug(e.status);
-      debug(e.data.error_description);
-      debug(' ');
+      debug('Error getting', log, { status: e.status, error: e.data.error, description: e.data.error_description });
       return res.status(403).send(e.data.error);
     });
 };
 
-const transactions = (req, res, client, accessToken) => resolveWithJsonAtPath('my transactions', client.getTransactions(accessToken, req.query.fromDate = undefined, req.query.toDate = undefined, req.query.source), res, 'data._embedded.transactions');
+const transactions = (req, res, client, accessToken) => resolveWithJsonAtPath('my transactions', client.getTransactions(accessToken, req.query.fromDate = '2016-03-01', req.query.toDate = moment().format('YYYY-MM-DD'), req.query.source), res, 'data._embedded.transactions');
 const balance = (req, res, client, accessToken) => resolveWithJsonAtPath('my balance', client.getBalance(accessToken), res, 'data');
 const customer = (req, res, client, accessToken) => resolveWithJsonAtPath('my customer', client.getCustomer(accessToken), res, 'data');
 

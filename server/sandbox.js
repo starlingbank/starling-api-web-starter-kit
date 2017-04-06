@@ -3,7 +3,7 @@ const moment = require('moment');
 const config = require('./config');
 const Starling = require('starling-developer-sdk');
 const starlingApiWrapper = require('./starling-api-wrapper');
-const persistence = require('./persistence');
+const persistence = require('./sandboxTokenPersistence');
 const debug = require('debug')('app:sandbox');
 
 const EXPIRY_THRESHOLD = 15 * 60 * 1000;

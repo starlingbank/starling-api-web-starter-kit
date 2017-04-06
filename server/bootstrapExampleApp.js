@@ -1,5 +1,4 @@
 const path = require('path')
-const axios = require('axios');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const config = require('./config');
@@ -7,6 +6,8 @@ const config = require('./config');
 const personalApp = require('./personal');
 const sandboxApp = require('./sandbox');
 const oauthApp = require('./oauth');
+
+const transactionTaggingApp = require('./transactionTagging');
 
 const ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
 
@@ -42,6 +43,8 @@ const bootstrapExampleApp = (express, app) => {
     }
     res.redirect('/');
   });
+
+  transactionTaggingApp.start(app);
 
   personalApp.start(app);
   sandboxApp.start(app);

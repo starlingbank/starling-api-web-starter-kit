@@ -4,6 +4,7 @@
 
   "cookieSecret": "21e361d0-ff2c-4763-a084-1032f2103ce8",
 
+  "personalTagStore": "../starling-api-web-starter-kit-personal-tag-store",
   "productionApi": "https://api.starlingbank.com",
   "personalAccessToken": "<personal access token>",
 
