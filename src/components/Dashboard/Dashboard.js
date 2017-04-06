@@ -31,6 +31,7 @@ class Dashboard extends React.Component {
 
       <Header as="h2" style={{fontSize: "2rem"}} textAlign="left" content={name} inverted/>
 
+        <Grid>
           {/*Balance UI*/}
           <Grid.Column>
             <Container style={{margin: '10px 5px 20px 5px'}}>
@@ -44,6 +45,7 @@ class Dashboard extends React.Component {
             </Container>
           </Grid.Column>
         </Grid>
+
         {/*Transaction UI*/}
         <Container>
           <Segment raised>
@@ -54,8 +56,8 @@ class Dashboard extends React.Component {
             { this.props.children || null }
           </Segment>
         </Container>
-      </div>
-    );
+
+      </div>;
   }
 }
 
