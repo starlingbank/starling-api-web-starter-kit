@@ -107,7 +107,7 @@ Where the `sandboxAccessToken` and `refreshToken` are the sandbox customer's acc
 You can then start then select the sandbox from the landing page of your application.
 
 <blockquote>
-Note: the current implementation requires the refresh token to be replaced on server restart. This is temporary, as a programmatic method for retrieval of an application's sandbox customers is in the works.
+Note: the current implementation uses LokiJS for in-memory storage of access and refesh tokens so the server can be restarted without having to replace the tokens in the `config.json`. This is temporary, as a programmatic method for retrieval of an application's sandbox customers is in the works.
 </blockquote>
 
 #### Personal Access
