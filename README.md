@@ -76,6 +76,11 @@ Simply replace `<application client id>` and `<application client secret>` with 
   "clientId": "<application client id>",
   "clientSecret": "<application client secret>",
   
+  "cookieSecret": "21e361d0-ff2c-4763-a084-1032f2103ce8",
+  
+  "productionApi": "https://api.starlingbank.com",
+  
+  "oauthApi": "https://oauth.starlingbank.com",
   "oauthRedirectUri": "http://localhost:3000/api/oauth/redirect"
 }
 ```
@@ -111,7 +116,9 @@ This can be achieved by entering your token into the `config.json` file under `p
 
 ```JSON
 {
-  "personalAccessToken": "<personal access token>",
+  "cookieSecret": "21e361d0-ff2c-4763-a084-1032f2103ce8",
+  "productionApi": "https://api.starlingbank.com",
+  "personalAccessToken": "<personal access token>"
 }
 ```
 Your personal access token can be obtained from your [developer account](https://developer.starlingbank.com/token) after linking it to your customer account.
