@@ -86,13 +86,15 @@ For the sandbox environment setup, use the config file, `config.json`, correctly
 {
   "clientId": "<application client id>",
   "clientSecret": "<application client secret>",
+  
+  "cookieSecret": "21e361d0-ff2c-4763-a084-1032f2103ce8",
  
   "SANDBOX_CONFIG_COMMENT": "Do not keep the store file in the app root dir or it will restart everytime it is written to!",
   "sandboxLocalTokenStore": "../starling-api-web-starter-kit-sandbox-token-store.json",
   "sandboxApi": "https://api-sandbox.starlingbank.com/",
   
   "sandboxAccessToken": "<sandbox access token from Starling Developers site>",
-  "refreshToken": "<refresh token from Starling Developers site>",
+  "refreshToken": "<refresh token from Starling Developers site>"
 }
 ```
 Where the `sandboxAccessToken` and `refreshToken` are the sandbox customer's access and refresh tokens from the [sandbox environment](https://developer.starlingbank.com/sandbox).
