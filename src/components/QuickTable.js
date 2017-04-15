@@ -1,23 +1,24 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import _ from 'lodash';
-import {joinClasses, lookup, iconClasses, amountDisplay, sourceDisplay} from "../commons/utils";
-import {Container, Table, Icon} from "semantic-ui-react";
+import { joinClasses } from '../commons/utils';
+import { Table } from 'semantic-ui-react';
+import { array, arrayOf, bool, element, func, object, oneOfType, shape, string } from 'prop-types';
 
 export const getUniqueRowId = (row, projection) => {
-  const keyParts = _.filter(_.entries(projection), ([propertyName, {primaryKey}]) => {
+  const keyParts = _.filter(_.entries(projection), ([ propertyName, { primaryKey } ]) => {
     return primaryKey;
   });
-  const keyValues = _.map(keyParts, ([propertyName, __]) => {
+  const keyValues = _.map(keyParts, ([ propertyName, __ ]) => {
     return _.get(row, propertyName);
   });
-  const id = keyValues.join('_');
-  return id;
+  return keyValues.join('_');
 };
 
-export const Item = ({rowId, projection, selection, item, selected, rowClickHandler, dispatch, index, context}) => {
-  return <tr key={`row_${rowId}`} className={selected ? 'selected' : (rowClickHandler ? 'actionable' : null)} onClick={() => rowClickHandler ? rowClickHandler(item) : null}>
+export const Item = ({ rowId, projection, selection, item, selected, rowClickHandler, dispatch, index, context }) => {
+  return <tr key={`row_${rowId}`} className={selected ? 'selected' : (rowClickHandler ? 'actionable' : null)}
+             onClick={() => rowClickHandler ? rowClickHandler(item) : null}>
     {_.map(selection, (k, i) => {
-      const cellDef = projection[k];
+      const cellDef = projection[ k ];
       const cellVal = _.get(item, k);
       return cellDef
         ? <td style={cellDef.cellStyle ? cellDef.cellStyle : null}
@@ -25,19 +26,20 @@ export const Item = ({rowId, projection, selection, item, selected, rowClickHand
               className={joinClasses(cellDef.cellClass, cellDef.cellAction ? 'actionable' : null)}
               onClick={cellDef.cellAction ? () => cellDef.cellAction(item, cellVal, dispatch, index, context) : null}
               key={`cell_${rowId}_${i}`}>
-            {cellDef.formatter ? cellDef.formatter(item, cellVal, dispatch, index, context) : cellVal}
-          </td>
+               {cellDef.formatter ? cellDef.formatter(item, cellVal, dispatch, index, context) : cellVal}
+             </td>
         : null;
     })}
   </tr>;
 };
 
 Item.propTypes = {
-  rowId: PropTypes.string.isRequired,
-  projection: PropTypes.object.isRequired,
-  selection: PropTypes.arrayOf(PropTypes.string),
-  item: PropTypes.object.isRequired,
-  dispatch: PropTypes.func // Provide this to item formatters so a cell can format a button or link to invoke a row level action
+  rowId: string.isRequired,
+  projection: object.isRequired,
+  selection: arrayOf(string),
+  item: object.isRequired,
+  dispatch: func // Provide this to item formatters so a cell can format a button or link to invoke a row
+  // level action
 };
 
 /**
@@ -49,18 +51,22 @@ Item.propTypes = {
  *   ...
  * }
  */
-const QuickTable = ({projection, selection, items, selectedItem, rowClickHandler, dispatch, isSummaryStyle, style, context}) => {
+const QuickTable = ({ projection, selection, items, selectedItem, rowClickHandler, dispatch, isSummaryStyle, style, context }) => {
   if (items && items.length) {
     return <Table style={style} className={isSummaryStyle ? 'table--summary' : null}>
-      <thead><tr>{_.map(selection, (k, i) => {
-        const def = projection[k];
+      <thead>
+      <tr>{_.map(selection, (k, i) => {
+        const def = projection[ k ];
         return def ? <th key={`${k}_${i}`}>{def.label}</th> : null;
-      })}</tr></thead>
+      })}</tr>
+      </thead>
       <tbody>{
         _.map(items, (row, i) => {
           const id = getUniqueRowId(row, projection);
           const isSelected = selectedItem && getUniqueRowId(selectedItem, projection) === id;
-          return <Item key={`row_${id}_${i}`} index={i} rowId={id} projection={projection} selection={selection} item={row} rowClickHandler={rowClickHandler} selected={isSelected} dispatch={dispatch} context={context}/>;
+          return <Item key={`row_${id}_${i}`} index={i} rowId={id} projection={projection} selection={selection}
+                       item={row} rowClickHandler={rowClickHandler} selected={isSelected} dispatch={dispatch}
+                       context={context}/>;
         })}
       </tbody>
     </Table>;
@@ -71,33 +77,33 @@ const QuickTable = ({projection, selection, items, selectedItem, rowClickHandler
 QuickTable.propTypes = {
 
   // Defines how to render each property of each item
-  projection: PropTypes.shape({
-    primaryKey: PropTypes.bool,
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    formatter: PropTypes.func,
-    cellStyle: PropTypes.string,
-    cellTitle: PropTypes.string,
-    cellClass: PropTypes.string,
-    cellAction: PropTypes.func
+  projection: shape({
+    primaryKey: bool,
+    label: oneOfType([ string, element ]),
+    formatter: func,
+    cellStyle: string,
+    cellTitle: string,
+    cellClass: string,
+    cellAction: func
   }).isRequired,
 
   // Which of the properties in projection to render as columns
-  selection: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selection: arrayOf(string).isRequired,
 
   // The items to render
-  items: PropTypes.array.isRequired,
+  items: array.isRequired,
 
   // The selected row item
-  selectedItem: PropTypes.object,
+  selectedItem: object,
 
   // Invoke on row click receiving the row item
-  rowClickHandler: PropTypes.func,
+  rowClickHandler: func,
 
   // Provide this to item formatters so a cell can format a button or link to invoke a row level action
-  dispatch: PropTypes.func,
+  dispatch: func,
 
   // Makes the font and padding smaller
-  isSummaryStyle: PropTypes.bool
+  isSummaryStyle: bool
 };
 
 export default QuickTable;

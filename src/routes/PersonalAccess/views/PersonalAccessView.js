@@ -1,41 +1,45 @@
-import React from "react";
-import URLSearchParams from "url-search-params";
-import {Loader, Message, Button, Statistic, Grid, Container, Segment, Header, Image, Icon, Label} from 'semantic-ui-react'
-import Dashboard from "../../../components/Dashboard/Dashboard";
-import UserDenied from "../../../components/UserDenied/UserDenied"
-import {Link} from 'react-router'
-import './PersonalAccessView.scss'
+import React from 'react';
+import URLSearchParams from 'url-search-params';
+import { Button, Container, Grid, Header, Icon, Loader, Segment } from 'semantic-ui-react';
+import Dashboard from '../../../components/Dashboard/Dashboard';
+import UserDenied from '../../../components/UserDenied/UserDenied';
+import { Link } from 'react-router';
+import './PersonalAccessView.scss';
 import QuickTable from '../../../components/QuickTable';
-import {transactionsProjection, transactionsSelection, transactionsWithTagsProjection, transactionsWithTagsSelection} from '../../../components/TransactionTable/TransactionTable';
+import { array, bool, func, object, shape } from 'prop-types';
+import {
+  transactionsWithTagsProjection,
+  transactionsWithTagsSelection
+} from '../../../components/TransactionTable/TransactionTable';
 
 class PersonalAccessView extends React.Component {
 
   static propTypes = {
-    personalAccess: React.PropTypes.shape({
-      transactions: React.PropTypes.array,
-      customer: React.PropTypes.object,
-      balance: React.PropTypes.object,
-      transactionTags: React.PropTypes.object,
-      tags: React.PropTypes.array,
-      tagSuggestions: React.PropTypes.array
-    }),
-    loadTransactions: React.PropTypes.func.isRequired,
-    loadBalance: React.PropTypes.func.isRequired,
-    loadCustomer: React.PropTypes.func.isRequired,
-    setLoading: React.PropTypes.func.isRequired,
-    getTransactionsTags: React.PropTypes.func.isRequired,
-    getTransactionTags: React.PropTypes.func.isRequired,
-    addTransactionTag: React.PropTypes.func.isRequired,
-    getTags: React.PropTypes.func.isRequired,
-    getTagsLike: React.PropTypes.func.isRequired
+    personalAccess: shape({
+      transactions: array,
+      customer: object,
+      balance: object,
+      loading: bool,
+      transactionTags: object,
+      tags: array,
+      tagSuggestions: array
+    }).isRequired,
+    loadTransactions: func.isRequired,
+    loadBalance: func.isRequired,
+    loadCustomer: func.isRequired,
+    setLoading: func.isRequired,
+    getTransactionsTags: func.isRequired,
+    getTransactionTags: func.isRequired,
+    addTransactionTag: func.isRequired,
+    getTags: func.isRequired,
+    getTagsLike: func.isRequired
   };
 
   componentWillMount () {
-    this.props.setLoading(true);
     this.props.loadTransactions();
     this.props.loadCustomer();
     this.props.loadBalance();
-
+    this.props.setLoading(true);
     this.props.getTransactionsTags();
     this.props.getTags();
   }
@@ -44,31 +48,31 @@ class PersonalAccessView extends React.Component {
     window.location.href = ('/api/logout')
   }
 
-  renderDashboard() {
-    const {loading, transactions, balance, customer, transactionTags, tags, tagSuggestions} = this.props.personalAccess;
+  renderDashboard () {
+    const { transactions, balance, customer, transactionTags, tags, tagSuggestions } = this.props.personalAccess;
     if (balance && transactions && customer) {
       return <Dashboard
-               mode={'Personal Access'}
-              customer={customer}
-              transactions={transactions}
-              balance={balance}>
-              { transactions.length
-                ? <QuickTable
-                    projection={transactionsWithTagsProjection}
-                    selection={transactionsWithTagsSelection}
-                    items={transactions}
-                    context={{transactionTags, tags, tagSuggestions}} />
-                : <p>No transactions on record.</p> }
+        mode={'Personal Access'}
+        customer={customer}
+        transactions={transactions}
+        balance={balance}>
+        { transactions.length
+          ? <QuickTable
+            projection={transactionsWithTagsProjection}
+            selection={transactionsWithTagsSelection}
+            items={transactions}
+            context={{ transactionTags, tags, tagSuggestions }}/>
+          : <p>No transactions on record.</p> }
       </Dashboard>;
     } else {
-      return <Loading />;
+      return <AnonymousProfile/>
     }
   }
 
   render () {
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
-    const {loading, transactions, balance, customer, transactionTags, tags, tagSuggestions} = this.props.personalAccess;
+    const { loading } = this.props.personalAccess;
     return (
       <Grid>
         <br/>
@@ -85,13 +89,13 @@ const Loading = () => {
   );
 };
 
-// TODO - Not clear when to use this. Presumably if we get 400s back from server when requesting customer/balance/transactions.
-//        Feels like we need richer redux store / app state to represent this scenario
+// TODO - Not clear when to use this. Presumably if we get 400s back from server when requesting
+// customer/balance/transactions. Feels like we need richer redux store / app state to represent this scenario
 const AnonymousProfile = () => {
   return (
     <Container>
       <Link to="/"><Button>{`< Back`}</Button> </Link>
-      <Segment size="large" textAlign="center">
+      <Segment size="large" textAlign="center" style={{maxWidth: '500px', margin: '40px auto'}}>
         <Header as="h2" icon={true}>
           <Icon name="warning sign"/>
           Access Denied

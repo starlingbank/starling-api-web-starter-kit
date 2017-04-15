@@ -37,7 +37,7 @@ const bootstrapExampleApp = (express, app) => {
    * This destroys the user session while using the main.js server, but does nothing in Personal Access mode.
    */
   app.get('/api/logout', (req, res) => {
-    const {session} = req;
+    const { session } = req;
     if (session) {
       session.destroy();
     }

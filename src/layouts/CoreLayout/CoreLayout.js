@@ -1,11 +1,12 @@
-import React from 'react'
-import Header from '../../components/Header'
-import '../../styles/core.scss'
+import React from 'react';
+import Header from '../../components/Header';
+import '../../styles/core.scss';
+import {element} from 'prop-types';
 
 export const CoreLayout = ({ children }) => (
   <div className="fw fh">
     <div className="headerMargin">
-    <Header />
+      <Header />
     </div>
     <div className="fw fh">
       {children}
@@ -15,7 +16,7 @@ export const CoreLayout = ({ children }) => (
 );
 
 CoreLayout.propTypes = {
-  children : React.PropTypes.element.isRequired
+  children: element.isRequired
 };
 
 export default CoreLayout

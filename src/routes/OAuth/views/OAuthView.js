@@ -6,6 +6,8 @@ import Dashboard from '../../../components/Dashboard/Dashboard'
 import { Link } from 'react-router'
 import UserDenied from '../../../components/UserDenied/UserDenied'
 import QuickTable from '../../../components/QuickTable';
+import { func } from 'prop-types';
+
 import {transactionsProjection, transactionsSelection} from '../../../components/TransactionTable/TransactionTable';
 
 const onConnectStarling = () => {
@@ -15,10 +17,10 @@ const onConnectStarling = () => {
 class OAuthView extends React.Component {
 
   static propTypes = {
-    loadTransactions: React.PropTypes.func.isRequired,
-    loadBalance: React.PropTypes.func.isRequired,
-    loadCustomer: React.PropTypes.func.isRequired,
-    setLoading: React.PropTypes.func.isRequired,
+    loadTransactions: func.isRequired,
+    loadBalance: func.isRequired,
+    loadCustomer: func.isRequired,
+    setLoading: func.isRequired,
   };
 
   componentWillMount () {
@@ -40,7 +42,7 @@ class OAuthView extends React.Component {
       <Grid>
         <br/>
         {loading ? <Loading/>
-          : ( transactions && balance ?
+          : ( transactions && balance && customer ?
             <Dashboard mode={'Production'} customer={customer} transactions={transactions} balance={balance}>
               <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions} />
             </Dashboard> : <AnonymousProfile />)}

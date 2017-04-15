@@ -10,7 +10,7 @@ const RETRIEVED_BALANCE = 'RETRIEVED_BALANCE';
 const RETRIEVED_CUSTOMER = 'RETRIEVED_CUSTOMER';
 const LOADING = 'LOADING';
 
-const loaderDelay = 100;
+const loaderDelay = 500;
 // ------------------------------------
 // Actions
 // ------------------------------------

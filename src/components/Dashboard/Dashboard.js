@@ -1,51 +1,39 @@
-import React from "react"
-import {
-  Grid,
-  Container,
-  Segment,
-  Header,
-  Statistic,
-  Icon,
-  Label,
-  Image,
-  Card,
-  Loader,
-  List,
-  Button
-} from "semantic-ui-react"
-import SelectorDropdown from "../../components/SelectorDropdown/SelectorDropdown"
-import {Link} from 'react-router'
-import {amountDisplay} from '../../commons/utils'
-import './Dashboard.scss'
+import React from 'react';
+import { Button, Container, Grid, Header, Icon, Label, List, Loader, Segment, Statistic } from 'semantic-ui-react';
+import SelectorDropdown from '../../components/SelectorDropdown/SelectorDropdown';
+import { Link } from 'react-router';
+import { amountDisplay } from '../../commons/utils';
+import './Dashboard.scss';
+import { array, element, shape, string } from 'prop-types';
 
 class Dashboard extends React.Component {
 
   static propTypes = {
-    balance: React.PropTypes.shape(),
-    transactions: React.PropTypes.array,
-    customer: React.PropTypes.shape(),
-    mode: React.PropTypes.string.isRequired,
-    children: React.PropTypes.element
+    balance: shape(),
+    transactions: array,
+    customer: shape(),
+    mode: string.isRequired,
+    children: element
   };
 
   render () {
-    const {customer, balance, transactions, mode} = this.props;
-    const {firstName} = customer;
-    const name = customer && firstName ? firstName + "'s Account" : "Your Account";
+    const { customer, balance, mode } = this.props;
+    const { firstName } = customer;
+    const name = customer && firstName ? firstName + '\'s Account' : 'Your Account';
 
-    return <Container style={{maxWidth: '970px'}}>
+    return <Container style={{ maxWidth: '970px' }}>
       <Grid.Row>
         <Link to="/">
           <Button>{`< Back`}</Button> </Link>
-        <Header as="h1" style={{fontSize: "3rem"}} textAlign="left" content={mode} inverted dividing={true}/>
+        <Header as="h1" style={{ fontSize: '3rem' }} textAlign="left" content={mode} inverted dividing={true}/>
       </Grid.Row>
 
-      <Header as="h2" style={{fontSize: "2rem"}} textAlign="left" content={name} inverted />
+      <Header as="h2" style={{ fontSize: '2rem' }} textAlign="left" content={name} inverted/>
 
       <Grid columns={2} stackable>
         {/*Customer UI*/}
         <Grid.Column>
-          <Segment raised style={{margin: "15px", minHeight: "220px"}}>
+          <Segment raised style={{ margin: '15px', minHeight: '220px' }}>
             <Label as='a' color='orange' size="huge" ribbon={true}>Account Details</Label>
             <Label as='a' className='tierLabel'>Tier 2</Label>
             <br/>
@@ -55,7 +43,7 @@ class Dashboard extends React.Component {
 
         {/*Balance UI*/}
         <Grid.Column >
-          <Segment raised style={{margin: "15px", minHeight: "220px"}}>
+          <Segment raised style={{ margin: '15px', minHeight: '220px' }}>
             <Label color='blue' size="huge" ribbon={true}>Balance</Label>
             <Label className='tierLabel'>Tier 1</Label>
             <Container textAlign="center">
@@ -67,7 +55,7 @@ class Dashboard extends React.Component {
 
       {/*Transaction UI*/}
       <Container>
-        <Segment raised style={{margin: "0 auto"}}>
+        <Segment raised style={{ margin: '0 auto' }}>
           <Label as='a' color='green' size="huge" ribbon={true}>Transactions</Label>
           <Label as='a' className='tierLabel'>Tier 1</Label>
           <SelectorDropdown mode={mode}/>
@@ -81,32 +69,32 @@ class Dashboard extends React.Component {
 }
 
 const Balance = (props) => {
-  const {balance} = props;
+  const { balance } = props;
   if (balance) {
 
-    if (balance.effectiveBalance === undefined) {
-      return <OldBalance balance={balance} />
+    if (balance.effectiveBalance === undefined && balance.amount) {
+      return <OldBalance balance={balance}/>
     }
 
     const effectiveBalance = balance.effectiveBalance ? amountDisplay(balance.effectiveBalance, balance.currency) : null;
-    const clearedBalance = balance.effectiveBalance ? amountDisplay(balance.clearedBalance, balance.currency) : null;
-    const pendingTransactions = balance.pendingTransactions;
+    const clearedBalance = balance.clearedBalance ? amountDisplay(balance.clearedBalance, balance.currency) : null;
+    const pendingTransactions = balance.pendingTransactions ? amountDisplay(balance.pendingTransactions, balance.currency) : null;
     return (
       <div>
-        <Statistic size="tiny" style={{textAlign: "center", marginTop: "-40px"}} color="blue">
-          <Icon name="diamond" size="huge" style={{textAlign: "center", margin: '10px auto'}}/>
+        <Statistic size="tiny" style={{ textAlign: 'center', marginTop: '-40px' }} color="blue">
+          <Icon name="diamond" size="huge" style={{ textAlign: 'center', margin: '10px auto' }}/>
           <Statistic.Value>{effectiveBalance}</Statistic.Value>
           <Statistic.Label>Effective Balance</Statistic.Label>
         </Statistic>
         <Grid columns={2}>
           <Grid.Column>
-            <Statistic size="mini" style={{textAlign: "center"}} color="blue">
+            <Statistic size="mini" style={{ textAlign: 'center' }} color="blue">
               <Statistic.Value>{clearedBalance}</Statistic.Value>
               <Statistic.Label>Settled Balance</Statistic.Label>
             </Statistic>
           </Grid.Column>
           <Grid.Column>
-            <Statistic size="mini" style={{textAlign: "center"}} color="blue">
+            <Statistic size="mini" style={{ textAlign: 'center' }} color="blue">
               <Statistic.Value>{pendingTransactions}</Statistic.Value>
               <Statistic.Label>Pending Txns</Statistic.Label>
             </Statistic>
@@ -127,10 +115,10 @@ const Balance = (props) => {
 };
 
 // While the API is different in demo and prod
-const OldBalance = ({balance}) => {
+const OldBalance = ({ balance }) => {
   return balance.amount ? <div>
-    <Statistic size="tiny" style={{textAlign: "center", marginTop: "-40px"}} color="blue">
-      <Icon name="diamond" size="huge" style={{textAlign: "center", margin: '10px auto'}}/>
+    <Statistic size="tiny" style={{ textAlign: 'center', marginTop: '-40px' }} color="blue">
+      <Icon name="diamond" size="huge" style={{ textAlign: 'center', margin: '10px auto' }}/>
       <Statistic.Value>{balance.amount ? amountDisplay(balance.amount, balance.currency) : null}</Statistic.Value>
       <Statistic.Label>Balance</Statistic.Label>
     </Statistic>
@@ -138,11 +126,11 @@ const OldBalance = ({balance}) => {
 };
 
 const CustomerDetails = (props) => {
-  const {customer} = props;
+  const { customer } = props;
   if (customer) {
-    const {firstName, lastName, email, phone, dateOfBirth} = customer;
+    const { firstName, lastName, email, phone, dateOfBirth } = customer;
     return (
-      <List animated size="large" style={{margin: '1em 2em'}} verticalAlign="bottom">
+      <List animated size="large" style={{ margin: '1em 2em' }} verticalAlign="bottom">
         <List.Item>
           <List.Icon name='users'/>
           <List.Content>{firstName + ' ' + lastName}</List.Content>

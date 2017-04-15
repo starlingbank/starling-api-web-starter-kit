@@ -1,19 +1,20 @@
-import React from "react";
-import URLSearchParams from "url-search-params";
-import {Loader, Grid, Button, Header, Container, Message, Segment, Icon} from "semantic-ui-react";
-import Dashboard from "../../../components/Dashboard/Dashboard";
-import {Link} from 'react-router'
-import UserDenied from '../../../components/UserDenied/UserDenied'
+import React from 'react';
+import URLSearchParams from 'url-search-params';
+import { Button, Container, Grid, Header, Icon, Loader, Segment } from 'semantic-ui-react';
+import Dashboard from '../../../components/Dashboard/Dashboard';
+import { Link } from 'react-router';
+import UserDenied from '../../../components/UserDenied/UserDenied';
 import QuickTable from '../../../components/QuickTable';
-import {transactionsProjection, transactionsSelection} from '../../../components/TransactionTable/TransactionTable';
+import { func} from 'prop-types';
+import { transactionsProjection, transactionsSelection } from '../../../components/TransactionTable/TransactionTable';
 
 class SandboxView extends React.Component {
 
   static propTypes = {
-    loadTransactions: React.PropTypes.func.isRequired,
-    loadBalance: React.PropTypes.func.isRequired,
-    loadCustomer: React.PropTypes.func.isRequired,
-    setLoading: React.PropTypes.func.isRequired,
+    loadTransactions: func.isRequired,
+    loadBalance: func.isRequired,
+    loadCustomer: func.isRequired,
+    setLoading: func.isRequired
   };
 
   componentWillMount () {
@@ -30,16 +31,17 @@ class SandboxView extends React.Component {
   render () {
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
-    const {loading, transactions, balance, customer} = this.props.sandbox;
+    const { transactions, balance, customer, loading } = this.props.sandbox;
+    console.log(transactions, balance, customer, loading);
     return (
       <Grid>
         <br/>
         {loading ? <Loading/>
           : ( transactions && balance && customer ?
-            <Dashboard mode={'Sandbox'} customer={customer} transactions={transactions} balance={balance}>
-              <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions} />
-            </Dashboard> :
-            <AnonymousProfile />)}
+              <Dashboard mode={'Sandbox'} customer={customer} transactions={transactions} balance={balance}>
+                <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions}/>
+              </Dashboard> :
+              <AnonymousProfile />)}
         {error && error === 'access_denied' ? <UserDenied/> : null}
       </Grid>
     )
@@ -57,7 +59,7 @@ const AnonymousProfile = () => {
     <Container>
       <Link to="/">
         <Button>{`< Back`}</Button> </Link>
-      <Segment size="large" textAlign="center">
+      <Segment size="large" textAlign="center" style={{maxWidth: '500px', margin: '40px auto'}}>
         <Header as="h2" icon={true}>
           <Icon name="warning sign"/>
           Access Denied

@@ -32,8 +32,8 @@ const oauthAccessTokenMiddleware = (req, res, next) => {
   const accessToken = req.session.accessToken;
   const accessTokenExpiry = req.session.accessTokenExpiry;
 
-  if (!accessToken) {
-    res.status(401).send({error: 'NOT_AUTHORIZED'});
+  if (! accessToken) {
+    res.status(401).send({ error: 'NOT_AUTHORIZED' });
     return;
   }
 
@@ -44,7 +44,7 @@ const oauthAccessTokenMiddleware = (req, res, next) => {
         next();
       })
       .catch(() => {
-        res.status(500).send({error: 'ACCESS_TOKEN_REFRESH_ERROR'});
+        res.status(500).send({ error: 'ACCESS_TOKEN_REFRESH_ERROR' });
       });
   } else {
     next()
@@ -74,7 +74,7 @@ const refreshAccessToken = (refreshToken, environment = 'production') => {
     refresh_token: refreshToken,
     grant_type: REFRESH_TOKEN_GRANT_TYPE,
     client_id: config.clientId,
-    client_secret: config.clientSecret,
+    client_secret: config.clientSecret
   };
   debug('refreshAccessToken :: ', params, environment);
   return getOAuthToken(params, environment);
@@ -96,4 +96,12 @@ const getOAuthToken = (params, environment) => {
   });
 };
 
-module.exports = { getOAuthToken, saveAccessTokenToSession, refreshAccessToken, oauthAccessTokenMiddleware, transactions, balance, customer };
+module.exports = {
+  getOAuthToken,
+  saveAccessTokenToSession,
+  refreshAccessToken,
+  oauthAccessTokenMiddleware,
+  transactions,
+  balance,
+  customer
+};

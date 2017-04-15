@@ -65,7 +65,7 @@ export const getTagsLike = (tag) => (dispatch) => {
     .catch((err) => console.error('Error getting tags like', tag, err));
 };
 
-const loaderDelay = 100;
+const loaderDelay = 500;
 
 // ------------------------------------
 // Constants

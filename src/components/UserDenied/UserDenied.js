@@ -1,6 +1,6 @@
-import React from "react";
-import {Button, Header, Container, Segment, Icon} from "semantic-ui-react";
-import {Link} from "react-router";
+import React from 'react';
+import { Button, Container, Header, Icon, Segment } from 'semantic-ui-react';
+import { Link } from 'react-router';
 
 const UserDenied = () => {
   return (

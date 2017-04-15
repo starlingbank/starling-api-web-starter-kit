@@ -2,11 +2,12 @@ import React from "react";
 import URLSearchParams from "url-search-params";
 import {Grid, Container, Segment, Header, Button, Icon} from "semantic-ui-react";
 import {Link} from "react-router";
+import { func } from 'prop-types';
 
 class HomeView extends React.Component {
 
   static propTypes = {
-    setLoading: React.PropTypes.func.isRequired,
+    setLoading: func.isRequired,
   };
 
   componentWillMount () {
