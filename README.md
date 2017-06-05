@@ -32,7 +32,7 @@ yarn install
 #### Start the application
 
 ```bash
-yarn run dev
+yarn start
 ```
 
 This will serve the client application on `localhost:3000` when using the default configuration.

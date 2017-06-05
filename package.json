@@ -1,5 +1,5 @@
 {
-  "name": "starling-api-web-app-starter",
+  "name": "starling-api-web-starter-kit",
   "version": "0.0.1",
   "description": "Get started with the Starling API using this simple React app.",
   "main": "index.js",
@@ -13,12 +13,8 @@
     "lint": "eslint bin build config server src tests",
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
-    "dev": "better-npm-run dev",
-    "dev:personal": "better-npm-run dev:personal",
-    "dev:sandbox": "better-npm-run dev:sandbox",
     "test": "better-npm-run test",
-    "test:dev": "npm run test -- --watch",
-    "deploy": "better-npm-run deploy",
+    "test:dev": "better-npm-run test -- --watch",
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
     "codecov": "cat coverage/*/lcov.info | codecov"
@@ -26,19 +22,6 @@
   "betterScripts": {
     "compile": {
       "command": "node bin/compile",
-      "env": {
-        "DEBUG": "app:*"
-      }
-    },
-    "dev": {
-      "command": "nodemon bin/dev-server --exec \"node -r dotenv/config -r babel-register\" --ignore dist --ignore coverage --ignore tests --ignore src",
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy": {
-      "command": "npm run lint && npm run test && npm run clean && npm run compile",
       "env": {
         "DEBUG": "app:*"
       }
@@ -58,7 +41,7 @@
       }
     },
     "start": {
-      "command": "node bin/dev-server",
+      "command": "nodemon bin/dev-server --exec \"node -r dotenv/config -r babel-register\" --ignore dist --ignore coverage --ignore tests --ignore src",
       "env": {
         "DEBUG": "app:*"
       }
