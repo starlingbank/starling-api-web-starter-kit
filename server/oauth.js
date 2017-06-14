@@ -57,12 +57,12 @@ const start = (app) => {
 
     getAccessToken(authorizationCode)
       .then(response => {
-        debug(authorizationCode, response.data)
+        debug(authorizationCode, response.data);
         starlingApiWrapper.saveAccessTokenToSession(response.data, req);
         res.redirect("/");
       })
       .catch((e) => {
-      debug("ERRRRRRROOOOOOORRRRR", e.data.error);
+      debug("getAccessToken – Error", e.data);
         res.redirect("/oauth");
       });
   });

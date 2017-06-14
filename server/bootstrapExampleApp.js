@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const config = require('./config');

@@ -37,7 +37,7 @@ class SandboxView extends React.Component {
       <Grid>
         <br/>
         {loading ? <Loading/>
-          : ( transactions && balance && customer ?
+          : ( transactions && balance ?
               <Dashboard mode={'Sandbox'} customer={customer} transactions={transactions} balance={balance}>
                 <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions}/>
               </Dashboard> :

@@ -1,6 +1,5 @@
-import {getBalance, getTransactions, getCustomer} from '../../../service/sandboxApiService'
-import {handleActions, createAction} from "redux-actions";
-import {sourceUrlEncode} from '../../../commons/utils'
+import { getBalance, getCustomer, getTransactions } from '../../../service/sandboxApiService';
+import { createAction, handleActions } from 'redux-actions';
 
 // ------------------------------------
 // Constants
@@ -19,13 +18,12 @@ const retrievedBalance = createAction(RETRIEVED_BALANCE);
 const retrievedCustomer = createAction(RETRIEVED_CUSTOMER);
 const loadingAction = createAction(LOADING);
 
-
 export const loadTransactions = (source, from, to) => {
   return dispatch => {
     getTransactions(source, from, to)
       .then(transactionResponse => {
         dispatch(retrievedTransactions(transactionResponse.data));
-        setTimeout(() => dispatch(setLoading(false)),loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
       })
       .catch(() => {
         setTimeout(() => dispatch(setLoading(false)), loaderDelay)
@@ -42,7 +40,7 @@ export const loadBalance = () => {
       })
       .catch((e) => {
         console.log(e);
-        setTimeout(() => dispatch(setLoading(false)),loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
       });
   }
 };
@@ -56,7 +54,7 @@ export const loadCustomer = () => {
       })
       .catch((e) => {
         console.log(e);
-        setTimeout(() => dispatch(setLoading(false)),loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
 
       });
   }
@@ -70,12 +68,11 @@ export const doSandboxTransactionFilter = (source) => {
       })
       .catch((e) => {
         console.log(e);
-
       });
   }
 };
 
-export const setLoading = (isLoading) => {
+export const setLoading = (isLoading = false) => {
   return dispatch => {
     dispatch(loadingAction(isLoading))
   }
@@ -89,20 +86,20 @@ const initialState = {
   transactions: undefined,
   balance: undefined,
   customer: undefined,
-  loading: false,
+  loading: false
 };
 
 export default handleActions({
   [RETRIEVED_TRANSACTIONS]: (state, action) => {
-    return Object.assign({}, state, {transactions: action.payload});
+    return Object.assign({}, state, { transactions: action.payload });
   },
   [RETRIEVED_BALANCE]: (state, action) => {
-    return Object.assign({}, state, {balance: action.payload});
+    return Object.assign({}, state, { balance: action.payload });
   },
   [RETRIEVED_CUSTOMER]: (state, action) => {
-    return Object.assign({}, state, {customer: action.payload});
+    return Object.assign({}, state, { customer: action.payload });
   },
   [LOADING]: (state, action) => {
-    return Object.assign({}, state, {loading: action.payload});
+    return Object.assign({}, state, { loading: action.payload });
   }
 }, initialState);

@@ -18,8 +18,7 @@ class Dashboard extends React.Component {
 
   render () {
     const { customer, balance, mode } = this.props;
-    const { firstName } = customer;
-    const name = customer && firstName ? firstName + '\'s Account' : 'Your Account';
+    const name = customer && customer.firstName ? customer.firstName + '\'s Account' : 'Your Account';
 
     return <Container style={{ maxWidth: '970px' }}>
       <Grid.Row>
@@ -37,7 +36,7 @@ class Dashboard extends React.Component {
             <Label as='a' color='orange' size="huge" ribbon={true}>Account Details</Label>
             <Label as='a' className='tierLabel'>Tier 2</Label>
             <br/>
-            {customer ? <CustomerDetails customer={customer}/> : <Loader/>}
+            {customer ? <CustomerDetails customer={customer}/> : <InsufficientScope />}
           </Segment>
         </Grid.Column>
 
@@ -71,14 +70,12 @@ class Dashboard extends React.Component {
 const Balance = (props) => {
   const { balance } = props;
   if (balance) {
-
     if (balance.effectiveBalance === undefined && balance.amount) {
       return <OldBalance balance={balance}/>
     }
-
-    const effectiveBalance = balance.effectiveBalance ? amountDisplay(balance.effectiveBalance, balance.currency) : null;
-    const clearedBalance = balance.clearedBalance ? amountDisplay(balance.clearedBalance, balance.currency) : null;
-    const pendingTransactions = balance.pendingTransactions ? amountDisplay(balance.pendingTransactions, balance.currency) : null;
+    const effectiveBalance = balance.effectiveBalance ? amountDisplay(balance.effectiveBalance, balance.currency) : '£0';
+    const clearedBalance = balance.clearedBalance ? amountDisplay(balance.clearedBalance, balance.currency) : '£0';
+    const pendingTransactions = balance.pendingTransactions ? amountDisplay(balance.pendingTransactions, balance.currency) : '£0';
     return (
       <div>
         <Statistic size="tiny" style={{ textAlign: 'center', marginTop: '-40px' }} color="blue">
@@ -163,6 +160,18 @@ const CustomerDetails = (props) => {
       </div>
     )
   }
+};
+
+const InsufficientScope = () => {
+  return (
+    <div>
+      <Header as="h3" icon={true} textAlign="center">
+        <Icon name="warning sign" size="large"/>
+        Must have Tier 2 access or above.<br/>
+        <Header.Subheader><code>customer:read</code> permission scope required to access this information.</Header.Subheader>
+      </Header>
+    </div>
+  )
 };
 
 export default Dashboard

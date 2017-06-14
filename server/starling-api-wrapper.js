@@ -32,7 +32,7 @@ const oauthAccessTokenMiddleware = (req, res, next) => {
   const accessToken = req.session.accessToken;
   const accessTokenExpiry = req.session.accessTokenExpiry;
 
-  if (! accessToken) {
+  if (!accessToken) {
     res.status(401).send({ error: 'NOT_AUTHORIZED' });
     return;
   }
@@ -53,8 +53,7 @@ const oauthAccessTokenMiddleware = (req, res, next) => {
 
 /**
  * Persists the access token and refresh token to the user session. This is called when
- *
- *   1) the access code is exchanged for the access and refresh tokens and
+ *   1) the auth code is exchanged for the access and refresh tokens and
  *   2) when the refresh token is used to obtain a new access and refresh token
  */
 const saveAccessTokenToSession = (accessTokenResponse, req) => {
@@ -76,7 +75,6 @@ const refreshAccessToken = (refreshToken, environment = 'production') => {
     client_id: config.clientId,
     client_secret: config.clientSecret
   };
-  debug('refreshAccessToken :: ', params, environment);
   return getOAuthToken(params, environment);
 };
 
@@ -85,7 +83,6 @@ const refreshAccessToken = (refreshToken, environment = 'production') => {
  */
 const getOAuthToken = (params, environment) => {
   const url = environment === 'sandbox' ? config.sandboxApi : config.productionApi;
-  debug('getOAuthToken :: ', url, params, environment);
   return axios({
     url: `${url}/oauth/access-token`,
     method: 'post',
