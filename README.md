@@ -4,7 +4,7 @@
 </p>
 
 <h1 align="center">
-  <a href="http://developer.starlingbank.com/get-started">Starling Developers</a>
+  <a href="https://developer.starlingbank.com/get-started">Starling Developers</a>
   <br>Web Starter Kit
 </h1>
 
@@ -15,7 +15,7 @@ The React Redux application is based on [this starter kit](https://github.com/da
 Looking for the [Mobile Starter Kit](https://github.com/starlingbank/starling-api-mobile-starter-kit) instead?
 
 ## Getting Started
-Please also take a look at the higher-level [Getting Started Guide](http://developer.starlingbank.com/get-started) on our site, which covers usage of our API as a whole.
+Please also take a look at the higher-level [Getting Started Guide](https://developer.starlingbank.com/get-started) on our site, which covers usage of our API as a whole.
 
 ### Prerequisites
 
