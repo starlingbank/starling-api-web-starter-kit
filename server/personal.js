@@ -11,9 +11,15 @@ const start = (app) => {
     app.get('/api/my/balance', (req, res) => res.json(exampleData.balance));
     app.get('/api/my/customer', (req, res) => res.json(exampleData.customer));
   } else {
-    app.get('/api/my/transactions', (req, res) => starlingApiWrapper.transactions(req, res, starlingClient, config.personalAccessToken));
-    app.get('/api/my/balance', (req, res) => starlingApiWrapper.balance(req, res, starlingClient, config.personalAccessToken));
-    app.get('/api/my/customer', (req, res) => starlingApiWrapper.customer(req, res, starlingClient, config.personalAccessToken));
+    app.get('/api/my/transactions', (req, res) => {
+      return starlingApiWrapper.transactions(req, res, starlingClient, config.personalAccessToken);
+    });
+    app.get('/api/my/balance', (req, res) => {
+      return starlingApiWrapper.balance(req, res, starlingClient, config.personalAccessToken);
+    });
+    app.get('/api/my/customer', (req, res) => {
+      return starlingApiWrapper.customer(req, res, starlingClient, config.personalAccessToken);
+    });
   }
 };
 module.exports = { start };

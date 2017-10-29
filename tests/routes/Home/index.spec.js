@@ -1,5 +1,5 @@
-import HomeRoute from 'routes/Home'
+import HomeRoute from 'routes/Home';
 
 describe('(Route) Home', () => {
 
-})
+});

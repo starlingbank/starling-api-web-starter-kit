@@ -1,4 +1,4 @@
-import {injectReducer} from '../../store/reducers'
+import { injectReducer } from '../../store/reducers';
 
 export default (store) => ({
   getComponent (nextState, cb) {
@@ -6,9 +6,9 @@ export default (store) => ({
       const HomeContainer = require('./containers/HomeContainer').default;
 
       const reducer = require('./modules/home').default;
-      injectReducer(store, {key: 'home', reducer});
+      injectReducer(store, { key: 'home', reducer });
 
       cb(null, HomeContainer);
-    }, 'home')
+    }, 'home');
   }
-})
+});

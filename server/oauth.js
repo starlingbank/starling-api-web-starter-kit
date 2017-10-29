@@ -21,7 +21,7 @@ const getAccessToken = code => {
 };
 
 const start = (app) => {
-  const starlingClient = new Starling({apiUrl: config.sandboxApi});
+  const starlingClient = new Starling({ apiUrl: config.sandboxApi });
 
   /**
    * Handle the "Connect with Starling" event. Redirects the user agent to Starling to authenticate the customer.
@@ -32,7 +32,8 @@ const start = (app) => {
     const oauthState = uid.sync(18);
     req.session.oauthState = oauthState;
     res.redirect(
-      `${config.oauthApi}/oauth?response_type=code&redirect_uri=${config.oauthRedirectUri}&state=${oauthState}&client_id=${config.clientId}`);
+      `${config.oauthApi}/oauth?response_type=code&redirect_uri=` +
+      `${config.oauthRedirectUri}&state=${oauthState}&client_id=${config.clientId}`);
   });
 
   /**
@@ -59,17 +60,23 @@ const start = (app) => {
       .then(response => {
         debug(authorizationCode, response.data);
         starlingApiWrapper.saveAccessTokenToSession(response.data, req);
-        res.redirect("/");
+        res.redirect('/');
       })
       .catch((e) => {
-      debug("getAccessToken – Error", e.data);
-        res.redirect("/oauth");
+        debug('getAccessToken – Error', e.data);
+        res.redirect('/oauth');
       });
   });
 
-  app.get('/api/oauth/transactions', starlingApiWrapper.oauthAccessTokenMiddleware, (req, res) => starlingApiWrapper.transactions(req, res, starlingClient, req.session.accessToken));
-  app.get('/api/oauth/balance', starlingApiWrapper.oauthAccessTokenMiddleware, (req, res) => starlingApiWrapper.balance(req, res, starlingClient, req.session.accessToken));
-  app.get('/api/oauth/customer', starlingApiWrapper.oauthAccessTokenMiddleware, (req, res) => starlingApiWrapper.customer(req, res, starlingClient, req.session.accessToken));
+  app.get('/api/oauth/transactions', starlingApiWrapper.oauthAccessTokenMiddleware, (req, res) => {
+    return starlingApiWrapper.transactions(req, res, starlingClient, req.session.accessToken);
+  });
+  app.get('/api/oauth/balance', starlingApiWrapper.oauthAccessTokenMiddleware, (req, res) => {
+    return starlingApiWrapper.balance(req, res, starlingClient, req.session.accessToken);
+  });
+  app.get('/api/oauth/customer', starlingApiWrapper.oauthAccessTokenMiddleware, (req, res) => {
+    return starlingApiWrapper.customer(req, res, starlingClient, req.session.accessToken);
+  });
 };
 
 module.exports = { start };

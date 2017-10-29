@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { amountDisplay, iconClasses, lookup, sourceDisplay } from '../../commons/utils';
 import { Icon } from 'semantic-ui-react';
 import TransactionTags from './TransactionTags';
@@ -8,7 +9,7 @@ export const transactionsProjection = {
   sourceIcon: {
     label: '',
     cellStyle: { textAlign: 'center' },
-    formatter: (transaction) => <Icon size="large" name={lookup(transaction.source).in(iconClasses).orDefault('pound')}
+    formatter: (transaction) => <Icon size='large' name={lookup(transaction.source).in(iconClasses).orDefault('pound')}
                                       style={{ textAlign: 'center' }}/>
   },
   narrative: { label: 'Description', cellStyle: { width: '300px' } },
@@ -25,7 +26,8 @@ export const transactionsProjection = {
     formatter: ({ currency }, balance) => balance ? amountDisplay(balance, currency) : null
   },
   created: {
-    label: 'Date', formatter: (transaction, created) => <div className="ui label">
+    label: 'Date',
+    formatter: (transaction, created) => <div className='ui label'>
       {new Date(created).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'numeric',
@@ -39,11 +41,15 @@ export const transactionsSelection = _.keys(transactionsProjection);
 
 export const transactionsWithTagsProjection = _.assign({}, transactionsProjection, {
   tags: {
-    label: 'Tags', cellStyle: { width: '400px' }, formatter: (transaction, __, ___, i, context) => {
+    label: 'Tags',
+    cellStyle: { width: '400px' },
+    formatter: (transaction, __, ___, i, context) => {
       return <TransactionTags transaction={transaction} transactionTags={context.transactionTags} tags={context.tags}
                               tagSuggestions={context.tagSuggestions}/>;
     }
   }
 });
 
-export const transactionsWithTagsSelection = [ 'sourceIcon', 'narrative', 'source', 'tags', 'amount', 'balance', 'created' ];
+export const transactionsWithTagsSelection = [
+  'sourceIcon', 'narrative', 'source', 'tags', 'amount', 'balance', 'created'
+];

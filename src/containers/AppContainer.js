@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory, Router } from 'react-router';
 import { Provider } from 'react-redux';
-import { object } from 'prop-types'
+import { object } from 'prop-types';
 import 'react-select/dist/react-select.css';
 
 class AppContainer extends Component {
@@ -11,7 +11,7 @@ class AppContainer extends Component {
   };
 
   shouldComponentUpdate () {
-    return false
+    return false;
   }
 
   render () {
@@ -20,11 +20,13 @@ class AppContainer extends Component {
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>
-          <Router history={browserHistory} children={routes}/>
+          <Router history={browserHistory}>
+            {routes}
+          </Router>
         </div>
       </Provider>
-    )
+    );
   }
 }
 
-export default AppContainer
+export default AppContainer;

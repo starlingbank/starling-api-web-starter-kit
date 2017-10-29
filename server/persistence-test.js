@@ -1,8 +1,6 @@
-const _ = require('lodash');
 const persistence = require('./persistence');
 
-const dbRef = persistence.initialise((db) => {
-
+persistence.initialise((db) => {
   const transactionTags = persistence.transactionTags(db);
   const tags = persistence.tags(db);
   const tagLinks = persistence.tagLinks(db);

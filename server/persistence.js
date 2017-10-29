@@ -9,7 +9,7 @@ const tags = (db) => db.getCollection('tags');
 const tagLinks = (db) => db.getCollection('tagLinks');
 
 const getTransactionTags = (db, transactionUid) => {
-  return transactionTags(db).findOne({transactionUid});
+  return transactionTags(db).findOne({ transactionUid });
 };
 
 const getTransactionsTags = (db) => {
@@ -20,20 +20,20 @@ const getTransactionsTags = (db) => {
 const getTags = (db) => _.map(tags(db).data, 'tag');
 
 const getLinkedTags = (db, tag) => {
-  return _.map(tagLinks(db).find({from: tag}), 'to');
+  return _.map(tagLinks(db).find({ from: tag }), 'to');
 };
 
 const addTransactionTag = (db, transactionUid, created, tag) => {
   const coll = transactionTags(db);
-  const found = coll.findOne({transactionUid});
-  if (found)  {
+  const found = coll.findOne({ transactionUid });
+  if (found) {
     // Update
     if (!_.find(found.tags, (t) => t === tag)) {
-      coll.update(_.assign({}, found, {tags: _.concat(found.tags, tag)}));
+      coll.update(_.assign({}, found, { tags: _.concat(found.tags, tag) }));
       addTagLinks(db, found.tags, tag);
     }
   } else {
-    coll.insert({transactionUid, created, tags: [tag]});
+    coll.insert({ transactionUid, created, tags: [ tag ] });
   }
 
   addTag(db, tag);
@@ -41,13 +41,13 @@ const addTransactionTag = (db, transactionUid, created, tag) => {
 
 const removeTransactionTag = (db, transactionUid, tag) => {
   const coll = transactionTags(db);
-  const found = coll.findOne({transactionUid});
-  if (found)  {
+  const found = coll.findOne({ transactionUid });
+  if (found) {
     if (_.find(found.tags, (t) => t === tag)) {
       if (found.tags.length === 1) {
         coll.remove(found);
       } else {
-        const updated = _.assign({}, found, {tags: _.without(found.tags, tag)});
+        const updated = _.assign({}, found, { tags: _.without(found.tags, tag) });
         coll.update(updated);
       }
     } else {
@@ -60,9 +60,9 @@ const removeTransactionTag = (db, transactionUid, tag) => {
 
 const addTag = (db, tag) => {
   const coll = tags(db);
-  const found = coll.findOne({tag});
+  const found = coll.findOne({ tag });
   if (!found) {
-    coll.insert({tag});
+    coll.insert({ tag });
   }
 };
 
@@ -75,9 +75,9 @@ const addTagLinks = (db, existingTags, tag) => {
 };
 
 const addTagLink = (coll, a, b) => {
-  const found = coll.findOne({ $and: [{ from: a }, { to: b}] });
+  const found = coll.findOne({ $and: [ { from: a }, { to: b } ] });
   if (!found) {
-    coll.insert({from: a, to: b});
+    coll.insert({ from: a, to: b });
   }
 };
 
@@ -90,26 +90,24 @@ const collection = (db, name) => {
 };
 
 const initialise = (cb) => {
-
   const autoLoadHandler = () => {
-
     /*
-      { transactionUid: '...', created: "2017-03-31T07:30:42.068Z", tags: ['...', '...'] }
+     { transactionUid: '...', created: "2017-03-31T07:30:42.068Z", tags: ['...', '...'] }
      */
     collection(db, 'transactionTags');
 
     /*
-      { name: 'food' },
-      { name: 'coffee' },
-      ...
-    */
+     { name: 'food' },
+     { name: 'coffee' },
+     ...
+     */
     collection(db, 'tags');
 
     /*
-      { name: 'food', link: 'breakfast' },
-      { name: 'food', link: 'dinner' },
-      ...
-    */
+     { name: 'food', link: 'breakfast' },
+     { name: 'food', link: 'dinner' },
+     ...
+     */
     collection(db, 'tagLinks');
 
     cb(db);
@@ -125,4 +123,15 @@ const initialise = (cb) => {
   return db;
 };
 
-module.exports = { initialise, transactionTags, tags, tagLinks, addTransactionTag, getTransactionTags, getTransactionsTags, removeTransactionTag, getTags, getLinkedTags };
+module.exports = {
+  initialise,
+  transactionTags,
+  tags,
+  tagLinks,
+  addTransactionTag,
+  getTransactionTags,
+  getTransactionsTags,
+  removeTransactionTag,
+  getTags,
+  getLinkedTags
+};

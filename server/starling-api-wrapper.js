@@ -19,9 +19,17 @@ const resolveWithJsonAtPath = (log, promise, res, path) => {
     });
 };
 
-const transactions = (req, res, client, accessToken) => resolveWithJsonAtPath('my transactions', client.getTransactions(accessToken, req.query.fromDate = '2016-03-01', req.query.toDate = moment().format('YYYY-MM-DD'), req.query.source), res, 'data._embedded.transactions');
-const balance = (req, res, client, accessToken) => resolveWithJsonAtPath('my balance', client.getBalance(accessToken), res, 'data');
-const customer = (req, res, client, accessToken) => resolveWithJsonAtPath('my customer', client.getCustomer(accessToken), res, 'data');
+const transactions = (req, res, client, accessToken) => {
+  return resolveWithJsonAtPath('my transactions',
+    client.getTransactions(accessToken, req.query.fromDate = '2016-03-01',
+      req.query.toDate = moment().format('YYYY-MM-DD'), req.query.source), res, 'data._embedded.transactions');
+};
+const balance = (req, res, client, accessToken) => {
+  return resolveWithJsonAtPath('my balance', client.getBalance(accessToken), res, 'data');
+};
+const customer = (req, res, client, accessToken) => {
+  return resolveWithJsonAtPath('my customer', client.getCustomer(accessToken), res, 'data');
+};
 
 /**
  * A middleware to check for the presence of the access token in the
@@ -47,7 +55,7 @@ const oauthAccessTokenMiddleware = (req, res, next) => {
         res.status(500).send({ error: 'ACCESS_TOKEN_REFRESH_ERROR' });
       });
   } else {
-    next()
+    next();
   }
 };
 

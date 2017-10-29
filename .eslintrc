@@ -1,27 +1,73 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "standard",
-    "standard-react"
+    "eslint:recommended",
+    "plugin:react/recommended"
   ],
+  "globals": {
+    "__DEV__": false,
+    "__TEST__": false,
+    "__PROD__": false,
+    "__DEBUG__": false,
+    "__COVERAGE__": false,
+    "__BASENAME__": false
+  },
   "plugins": [
     "babel",
     "react",
     "promise"
   ],
   "env": {
-    "browser" : true
-  },
-  "globals": {
-    "__DEV__"      : false,
-    "__TEST__"     : false,
-    "__PROD__"     : false,
-    "__COVERAGE__" : false
+    "browser": true,
+    "node": true,
+    "es6": true
   },
   "rules": {
-    "key-spacing"          : 0,
-    "jsx-quotes"           : [2, "prefer-single"],
-    "max-len"              : [2, 120, 2],
-    "object-curly-spacing" : [2, "always"]
+    "semi": [
+      1,
+      "always"
+    ],
+    "max-len": [
+      1,
+      120,
+      2,
+      {
+        "ignoreRegExpLiterals": true
+      }
+    ],
+    "no-console": [0],
+    "no-extra-parens": [1],
+    "no-template-curly-in-string": [1],
+    "no-multi-spaces": [1],
+    "strict": [1],
+    "no-undef-init": [1],
+    "no-lonely-if": [1],
+    "no-multiple-empty-lines": [1],
+    "no-unneeded-ternary": [1],
+    "no-var": [1],
+    "prefer-const": [1],
+    "no-alert": [2],
+    "react/no-unescaped-entities": 0,
+    "no-unused-vars": 1,
+    "react/display-name": [0],
+    "jsx-quotes": [
+      1,
+      "prefer-single"
+    ],
+    "no-class-assign": 0,
+    "react/prop-types": [
+      1,
+      {
+        "skipUndeclared": true
+      }
+    ]
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    }
   }
 }

@@ -1,4 +1,4 @@
-import {injectReducer} from '../../store/reducers'
+import { injectReducer } from '../../store/reducers';
 
 export default (store) => ({
   path: 'oauth',
@@ -6,11 +6,10 @@ export default (store) => ({
     require.ensure([], (require) => {
       const OAuthContainer = require('./containers/OAuthContainer').default;
       const reducer = require('./modules/oauth').default;
-      injectReducer(store, {key: 'oauth', reducer});
+      injectReducer(store, { key: 'oauth', reducer });
 
       cb(null, OAuthContainer);
-    }, 'oauth')
-  },
-})
-
+    }, 'oauth');
+  }
+});
 

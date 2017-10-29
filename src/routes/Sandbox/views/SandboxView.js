@@ -5,16 +5,22 @@ import Dashboard from '../../../components/Dashboard/Dashboard';
 import { Link } from 'react-router';
 import UserDenied from '../../../components/UserDenied/UserDenied';
 import QuickTable from '../../../components/QuickTable';
-import { func} from 'prop-types';
+import PropTypes from 'prop-types';
 import { transactionsProjection, transactionsSelection } from '../../../components/TransactionTable/TransactionTable';
 
 class SandboxView extends React.Component {
 
   static propTypes = {
-    loadTransactions: func.isRequired,
-    loadBalance: func.isRequired,
-    loadCustomer: func.isRequired,
-    setLoading: func.isRequired
+    loadTransactions: PropTypes.func.isRequired,
+    loadBalance: PropTypes.func.isRequired,
+    loadCustomer: PropTypes.func.isRequired,
+    setLoading: PropTypes.func.isRequired,
+    sandbox: PropTypes.shape({
+      loading: PropTypes.bool,
+      transactions: PropTypes.object,
+      balance: PropTypes.object,
+      customer: PropTypes.object
+    }).isRequired
   };
 
   componentWillMount () {
@@ -25,43 +31,42 @@ class SandboxView extends React.Component {
   }
 
   componentWillUnmount () {
-    window.location.href = ('/api/logout')
+    window.location.href = '/api/logout';
   }
 
   render () {
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
     const { transactions, balance, customer, loading } = this.props.sandbox;
-    console.log(transactions, balance, customer, loading);
     return (
       <Grid>
         <br/>
         {loading ? <Loading/>
-          : ( transactions && balance ?
-              <Dashboard mode={'Sandbox'} customer={customer} transactions={transactions} balance={balance}>
-                <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions}/>
-              </Dashboard> :
-              <AnonymousProfile />)}
+          : transactions && balance
+           ? <Dashboard mode={'Sandbox'} customer={customer} transactions={transactions} balance={balance}>
+              <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions}/>
+            </Dashboard>
+           : <AnonymousProfile/>}
         {error && error === 'access_denied' ? <UserDenied/> : null}
       </Grid>
-    )
+    );
   }
 }
 
 const Loading = () => {
   return (
-    <Loader active size="large"/>
+    <Loader active size='large'/>
   );
 };
 
 const AnonymousProfile = () => {
   return (
     <Container>
-      <Link to="/">
+      <Link to='/'>
         <Button>{`< Back`}</Button> </Link>
-      <Segment size="large" textAlign="center" style={{maxWidth: '500px', margin: '40px auto'}}>
-        <Header as="h2" icon={true}>
-          <Icon name="warning sign"/>
+      <Segment size='large' textAlign='center' style={{ maxWidth: '500px', margin: '40px auto' }}>
+        <Header as='h2' icon>
+          <Icon name='warning sign'/>
           Access Denied
           <Header.Subheader>
             Check the sandbox refresh token in the server config is valid and try again.
@@ -73,4 +78,4 @@ const AnonymousProfile = () => {
   );
 };
 
-export default SandboxView
+export default SandboxView;
