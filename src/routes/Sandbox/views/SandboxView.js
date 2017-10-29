@@ -17,7 +17,7 @@ class SandboxView extends React.Component {
     setLoading: PropTypes.func.isRequired,
     sandbox: PropTypes.shape({
       loading: PropTypes.bool,
-      transactions: PropTypes.object,
+      transactions: PropTypes.array,
       balance: PropTypes.object,
       customer: PropTypes.object
     }).isRequired

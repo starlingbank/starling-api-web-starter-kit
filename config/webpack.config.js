@@ -1,4 +1,3 @@
-import cssnano from 'cssnano';
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -136,34 +135,13 @@ config.module.rules.push({
       loader: 'style-loader'
     } ],
     use: [ {
-      loader: 'css-loader',
-      options: {
-        sourceMap: project.sourcemaps,
-        modules: true,
-        localIdentName: '[name]__[local]--[hash:base64:5]'
-      }
+      loader: 'css-loader'
     }, {
-      loader: 'sass-loader',
-      options: {
-        sourceMap: project.sourcemaps,
-        modules: true,
-        localIdentName: '[name]__[local]--[hash:base64:5]'
-      }
+      loader: 'sass-loader'
     } ]
   })
 });
 
-config.module.rules.push({
-  test: /\.less$/,
-  loader: extractStyles.extract({
-    use: [ {
-      loader: 'css-loader'
-    }, {
-      loader: 'less-loader'
-    } ],
-    fallback: 'style-loader'
-  })
-});
 config.plugins.push(extractStyles);
 
 // Images
@@ -210,29 +188,29 @@ config.module.rules.push({
   });
 });
 
-config.plugins.push(
-  new webpack.LoaderOptionsPlugin({
-    options: {
-      postcss: [
-        cssnano({
-          autoprefixer: {
-            add: true,
-            remove: true,
-            browsers: [ 'last 2 versions' ]
-          },
-          discardComments: {
-            removeAll: true
-          },
-          discardUnused: false,
-          mergeIdents: false,
-          reduceIdents: false,
-          safe: true,
-          sourcemap: true
-        })
-      ]
-    }
-  })
-);
+// config.plugins.push(
+//   new webpack.LoaderOptionsPlugin({
+//     options: {
+//       postcss: [
+//         cssnano({
+//           autoprefixer: {
+//             add: true,
+//             remove: true,
+//             browsers: [ 'last 2 versions' ]
+//           },
+//           discardComments: {
+//             removeAll: true
+//           },
+//           discardUnused: false,
+//           mergeIdents: false,
+//           reduceIdents: false,
+//           safe: true,
+//           sourcemap: true
+//         })
+//       ]
+//     }
+//   })
+// );
 
 // HTML Template
 // ------------------------------------

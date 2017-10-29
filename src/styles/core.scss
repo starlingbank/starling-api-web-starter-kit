@@ -1,8 +1,5 @@
-@import 'base';
 @import '~normalize.css/normalize';
 
-// Some best-practice CSS that's useful for most apps
-// Just remove them if they're not what you want
 html {
   box-sizing: border-box;
 }
@@ -22,10 +19,6 @@ body {
   height:0;
 }
 
-.App {
-  height: 100%;
-}
-
 #root {
   height: 100%;
 }
@@ -35,7 +28,7 @@ body {
 }
 
 .fw {
- width: 100%;
+  width: 100%;
   min-width: 100%;
   padding-left: 0;
   padding-right: 0;
