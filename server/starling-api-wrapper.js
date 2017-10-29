@@ -21,7 +21,7 @@ const resolveWithJsonAtPath = (log, promise, res, path) => {
 
 const transactions = (req, res, client, accessToken) => {
   return resolveWithJsonAtPath('my transactions',
-    client.getTransactions(accessToken, req.query.fromDate = '2016-03-01',
+    client.getTransactions(accessToken, req.query.fromDate = moment().subtract(3, 'months').format('YYYY-MM-DD'),
       req.query.toDate = moment().format('YYYY-MM-DD'), req.query.source), res, 'data._embedded.transactions');
 };
 const balance = (req, res, client, accessToken) => {
