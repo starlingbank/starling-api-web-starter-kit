@@ -44,8 +44,8 @@ const karmaConfig = {
     }
   },
   webpackMiddleware: {
-    stats: 'normal',
-    noInfo: false
+    stats: 'errors-only',
+    noInfo: true
   }
 
 };
