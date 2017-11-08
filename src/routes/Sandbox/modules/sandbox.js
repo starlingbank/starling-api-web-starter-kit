@@ -23,12 +23,12 @@ export const loadTransactions = (source, from, to) => {
     getTransactions(source, from, to)
       .then(transactionResponse => {
         dispatch(retrievedTransactions(transactionResponse.data));
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       })
       .catch(() => {
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       });
-  }
+  };
 };
 
 export const loadBalance = () => {
@@ -36,13 +36,13 @@ export const loadBalance = () => {
     getBalance()
       .then(balanceResponse => {
         dispatch(retrievedBalance(balanceResponse.data));
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       })
       .catch((e) => {
         console.log(e);
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       });
-  }
+  };
 };
 
 export const loadCustomer = () => {
@@ -50,14 +50,13 @@ export const loadCustomer = () => {
     getCustomer()
       .then(customerResponse => {
         dispatch(retrievedCustomer(customerResponse.data));
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       })
       .catch((e) => {
         console.log(e);
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
-
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       });
-  }
+  };
 };
 
 export const doSandboxTransactionFilter = (source) => {
@@ -69,13 +68,13 @@ export const doSandboxTransactionFilter = (source) => {
       .catch((e) => {
         console.log(e);
       });
-  }
+  };
 };
 
 export const setLoading = (isLoading = false) => {
   return dispatch => {
-    dispatch(loadingAction(isLoading))
-  }
+    dispatch(loadingAction(isLoading));
+  };
 };
 
 // ------------------------------------

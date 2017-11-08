@@ -1,15 +1,13 @@
 import _ from 'lodash';
-import fp from 'lodash/fp';
+
 const debug = require('debug')('app:transactionTagging');
-const axios = require('axios');
 const persistence = require('./persistence');
 
 export const start = (app) => {
-
   debug('Starting transaction tagging app...');
 
   let db;
-  const dbRef = persistence.initialise((readyDb) => {
+  persistence.initialise((readyDb) => {
     db = readyDb;
     debug('Transaction tagging app started.');
   });
@@ -28,7 +26,7 @@ export const start = (app) => {
    */
   app.put('/api/my/transaction-tags/:transactionUid/tags', (req, res) => {
     withDb(req, res, () => {
-      const {transactionUid} = req.params;
+      const { transactionUid } = req.params;
       const transaction = req.body.transaction;
       const tag = req.body.tag;
       debug('PUT transaction tag', transactionUid, tag);
@@ -42,7 +40,7 @@ export const start = (app) => {
    */
   app.delete('/api/my/transaction-tags/:transactionUid/tags/:tagName', (req, res) => {
     withDb(req, res, () => {
-      const {transactionUid, tagName} = req.params;
+      const { transactionUid, tagName } = req.params;
       debug('DELETE transaction tag', transactionUid, tagName);
       persistence.removeTransactionTag(db, transactionUid, tagName);
       res.end();
@@ -54,7 +52,7 @@ export const start = (app) => {
    */
   app.get('/api/my/transaction-tags/:transactionUid/tags', (req, res) => {
     withDb(req, res, () => {
-      const {transactionUid} = req.params;
+      const { transactionUid } = req.params;
       debug('GET transaction tags', transactionUid);
       const transactionTags = persistence.getTransactionTags(db, transactionUid);
       res.json(transactionTags);
@@ -69,7 +67,9 @@ export const start = (app) => {
       debug('GET transactions tags');
       // const {fromDate, toDate} = req.query;
       const transactionTags = persistence.getTransactionsTags(db);
-      const byUid = _.reduce(transactionTags,  (acc, {transactionUid, created, tags}) => _.assign(acc, { [transactionUid]: tags}), {});
+      const byUid = _.reduce(transactionTags, (acc, { transactionUid, tags }) => {
+        return _.assign(acc, { [transactionUid]: tags }), {};
+      });
       res.json(byUid);
     });
   });
@@ -89,10 +89,9 @@ export const start = (app) => {
    */
   app.get('/api/my/tag-suggestions/:tagName', (req, res) => {
     withDb(req, res, () => {
-      const {tagName} = req.params;
+      const { tagName } = req.params;
       debug('GET tags like', tagName);
       res.json(persistence.getLinkedTags(db, tagName));
     });
   });
-
 };

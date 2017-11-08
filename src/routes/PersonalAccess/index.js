@@ -1,4 +1,4 @@
-import {injectReducer} from '../../store/reducers'
+import { injectReducer } from '../../store/reducers';
 
 export default (store) => ({
   path : 'personal',
@@ -7,9 +7,9 @@ export default (store) => ({
       const PersonalAccessContainer = require('./containers/PersonalAccessContainer').default;
 
       const reducer = require('./modules/personalAccess').default;
-      injectReducer(store, {key: 'personalAccess', reducer});
+      injectReducer(store, { key: 'personalAccess', reducer });
 
       cb(null, PersonalAccessContainer);
-    }, 'personal')
+    }, 'personal');
   }
-})
+});

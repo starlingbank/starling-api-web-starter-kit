@@ -1,6 +1,12 @@
-import {connect} from 'react-redux'
-import {loadTransactions, loadBalance, loadCustomer, setLoading, doSandboxTransactionFilter} from '../modules/sandbox'
-import SandboxView from '../views/SandboxView'
+import { connect } from 'react-redux';
+import {
+  doSandboxTransactionFilter,
+  loadBalance,
+  loadCustomer,
+  loadTransactions,
+  setLoading
+} from '../modules/sandbox';
+import SandboxView from '../views/SandboxView';
 
 const mapDispatchToProps = {
   loadTransactions,
@@ -11,7 +17,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
-  sandbox: state.sandbox,
+  sandbox: state.sandbox
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SandboxView)
+export default connect(mapStateToProps, mapDispatchToProps)(SandboxView);

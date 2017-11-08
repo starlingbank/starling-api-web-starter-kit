@@ -8,14 +8,14 @@ export const sourceUrlEncode = (source) => {
   } else if (source === 'DIRECT_DEBIT' || source === 'direct-debit') {
     return '/direct-debit';
   } else {
-    return ''
+    return '';
   }
 };
 
 export const currencySymbols = {
   GBP: '£',
   USD: '$',
-  EUR: "€"
+  EUR: '€'
 };
 
 export const iconClasses = {
@@ -43,18 +43,18 @@ export const lookup = key => {
         orDefault: value => {
           return map[key] || value;
         }
-      }
+      };
     }
-  }
+  };
 };
 
 export const amountDisplay = (amount, currency) => {
   const currencySymbol = lookup(currency).in(currencySymbols).orDefault('£');
-    if (amount < 0) {
-      return '-' + currencySymbol + (-amount).toFixed(2).toString();
-    } else {
-      return currencySymbol + (amount).toFixed(2).toString();
-    }
+  if (amount < 0) {
+    return '-' + currencySymbol + (-amount).toFixed(2).toString();
+  } else {
+    return currencySymbol + amount.toFixed(2).toString();
+  }
 };
 
 import _ from 'lodash';

@@ -1,6 +1,5 @@
-import {getBalance, getTransactions, getCustomer} from '../../../service/oauthApiService'
-import {handleActions, createAction} from "redux-actions";
-import {sourceUrlEncode} from '../../../commons/utils'
+import { getBalance, getCustomer, getTransactions } from '../../../service/oauthApiService';
+import { createAction, handleActions } from 'redux-actions';
 
 // ------------------------------------
 // Constants
@@ -19,18 +18,17 @@ const retrievedBalance = createAction(RETRIEVED_BALANCE);
 const retrievedCustomer = createAction(RETRIEVED_CUSTOMER);
 const loadingAction = createAction(LOADING);
 
-
 export const loadTransactions = (source, from, to) => {
   return dispatch => {
     getTransactions(source, from, to)
       .then(transactionResponse => {
         dispatch(retrievedTransactions(transactionResponse.data));
-        setTimeout(() => dispatch(setLoading(false)),loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       })
       .catch(() => {
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       });
-  }
+  };
 };
 
 export const loadBalance = () => {
@@ -38,13 +36,13 @@ export const loadBalance = () => {
     getBalance()
       .then(balanceResponse => {
         dispatch(retrievedBalance(balanceResponse.data));
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       })
       .catch((e) => {
         console.log(e);
-        setTimeout(() => dispatch(setLoading(false)),loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       });
-  }
+  };
 };
 
 export const loadCustomer = () => {
@@ -52,14 +50,13 @@ export const loadCustomer = () => {
     getCustomer()
       .then(customerResponse => {
         dispatch(retrievedCustomer(customerResponse.data));
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       })
       .catch((e) => {
         console.log(e);
-        setTimeout(() => dispatch(setLoading(false)),loaderDelay)
-
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       });
-  }
+  };
 };
 
 export const doOAuthTransactionFilter = (source) => {
@@ -71,13 +68,13 @@ export const doOAuthTransactionFilter = (source) => {
       .catch((e) => {
         console.log(e);
       });
-  }
+  };
 };
 
 export const setLoading = (isLoading) => {
   return dispatch => {
-    dispatch(loadingAction(isLoading))
-  }
+    dispatch(loadingAction(isLoading));
+  };
 };
 
 // ------------------------------------
@@ -88,20 +85,20 @@ const initialState = {
   transactions: undefined,
   balance: undefined,
   customer: undefined,
-  loading: false,
+  loading: false
 };
 
 export default handleActions({
   [RETRIEVED_TRANSACTIONS]: (state, action) => {
-    return Object.assign({}, state, {transactions: action.payload});
+    return Object.assign({}, state, { transactions: action.payload });
   },
   [RETRIEVED_BALANCE]: (state, action) => {
-    return Object.assign({}, state, {balance: action.payload});
+    return Object.assign({}, state, { balance: action.payload });
   },
   [RETRIEVED_CUSTOMER]: (state, action) => {
-    return Object.assign({}, state, {customer: action.payload});
+    return Object.assign({}, state, { customer: action.payload });
   },
   [LOADING]: (state, action) => {
-    return Object.assign({}, state, {loading: action.payload});
+    return Object.assign({}, state, { loading: action.payload });
   }
 }, initialState);

@@ -1,6 +1,4 @@
-const _ = require('lodash');
 const loki = require('lokijs');
-const debug = require('debug')('app:persistence');
 const config = require('./config');
 
 const SANDBOX_TOKEN_COLLECTION = 'sandboxTokens';
@@ -21,7 +19,6 @@ const collection = (db, name) => {
 };
 
 const initialise = (cb) => {
-
   const autoLoadHandler = () => {
     collection(db, SANDBOX_TOKEN_COLLECTION);
     cb(db);

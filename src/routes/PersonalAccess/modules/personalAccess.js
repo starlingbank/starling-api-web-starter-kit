@@ -1,13 +1,14 @@
 import _ from 'lodash';
-import {getBalance, getTransactions, getCustomer} from '../../../service/personalApiService';
-import {addTransactionTag as addTransactionTagService,
-        removeTransactionTag as removeTransactionTagService,
-        getTransactionTags as getTransactionTagsService,
-        getTransactionsTags as getTransactionsTagsService,
-        getTags as getTagsService,
-        getTagsLike as getTagsLikeService} from '../../../service/transactionTaggingService';
-import {handleActions, createAction} from 'redux-actions';
-import {sourceUrlEncode} from '../../../commons/utils';
+import { getBalance, getCustomer, getTransactions } from '../../../service/personalApiService';
+import {
+  addTransactionTag as addTransactionTagService,
+  getTags as getTagsService,
+  getTagsLike as getTagsLikeService,
+  getTransactionsTags as getTransactionsTagsService,
+  getTransactionTags as getTransactionTagsService,
+  removeTransactionTag as removeTransactionTagService
+} from '../../../service/transactionTaggingService';
+import { createAction, handleActions } from 'redux-actions';
 
 const GOT_TRANSACTIONS_TAGS = 'GOT_TRANSACTIONS_TAGS';
 const GOT_TRANSACTION_TAGS = 'GOT_TRANSACTION_TAGS';
@@ -23,7 +24,7 @@ const gotTagsLike = createAction(GOT_TAGS_LIKE);
 export const deleteTransactionTag = (transaction, tagToRemove) => (dispatch) => {
   return removeTransactionTagService(transaction, tagToRemove)
     .then(() => dispatch(getTransactionTags(transaction)))
-    .catch((err) => console.error('Erorr removing tag from  transaction', transaction, tagToRemove, err));
+    .catch((err) => console.error('Error removing tag from  transaction', transaction, tagToRemove, err));
 };
 
 export const addTransactionTag = (transaction, tagToAdd) => (dispatch) => {
@@ -32,18 +33,18 @@ export const addTransactionTag = (transaction, tagToAdd) => (dispatch) => {
       dispatch(getTransactionTags(transaction));
       dispatch(getTags(tagToAdd));
     })
-    .catch((err) => console.error('Erorr adding tag to transaction', transaction, tagToAdd, err));
+    .catch((err) => console.error('Error adding tag to transaction', transaction, tagToAdd, err));
 };
 
 export const getTransactionsTags = () => (dispatch) => {
   return getTransactionsTagsService()
     .then((json) => dispatch(gotTransactionsTags(json)))
-    .catch((err) => console.error('Error getting transaction tags', transaction, err));
+    .catch((err) => console.error('Error getting transaction tags', err));
 };
 
 export const getTransactionTags = (transaction) => (dispatch) => {
   return getTransactionTagsService(transaction)
-    .then((json) => dispatch(gotTransactionTags({transaction, latestTransactionTags: json})))
+    .then((json) => dispatch(gotTransactionTags({ transaction, latestTransactionTags: json })))
     .catch((err) => console.error('Error getting transaction tags', transaction, err));
 };
 
@@ -65,7 +66,7 @@ export const getTagsLike = (tag) => (dispatch) => {
     .catch((err) => console.error('Error getting tags like', tag, err));
 };
 
-const loaderDelay = 500;
+const loaderDelay = 1000;
 
 // ------------------------------------
 // Constants
@@ -88,12 +89,12 @@ export const loadTransactions = (source, from, to) => {
     getTransactions(source, from, to)
       .then(transactionResponse => {
         dispatch(retrievedTransactions(transactionResponse.data));
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       })
       .catch(() => {
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       });
-  }
+  };
 };
 
 export const loadBalance = () => {
@@ -101,13 +102,13 @@ export const loadBalance = () => {
     getBalance()
       .then(balanceResponse => {
         dispatch(retrievedBalance(balanceResponse.data));
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       })
       .catch((e) => {
         console.log(e);
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       });
-  }
+  };
 };
 
 export const loadCustomer = () => {
@@ -115,13 +116,13 @@ export const loadCustomer = () => {
     getCustomer()
       .then(customerResponse => {
         dispatch(retrievedCustomer(customerResponse.data));
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       })
       .catch((e) => {
         console.log(e);
-        setTimeout(() => dispatch(setLoading(false)), loaderDelay)
+        setTimeout(() => dispatch(setLoading(false)), loaderDelay);
       });
-  }
+  };
 };
 
 export const doPersonalTransactionFilter = (source) => {
@@ -133,13 +134,13 @@ export const doPersonalTransactionFilter = (source) => {
       .catch((e) => {
         console.log(e);
       });
-  }
+  };
 };
 
 export const setLoading = (isLoading) => {
   return dispatch => {
-    dispatch(loadingAction(isLoading))
-  }
+    dispatch(loadingAction(isLoading));
+  };
 };
 
 // ------------------------------------
@@ -158,39 +159,45 @@ const initialState = {
 
 export default handleActions({
   [RETRIEVED_TRANSACTIONS]: (state, action) => {
-    return Object.assign({}, state, {transactions: action.payload});
+    return Object.assign({}, state, { transactions: action.payload });
   },
   [RETRIEVED_BALANCE]: (state, action) => {
-    return Object.assign({}, state, {balance: action.payload});
+    return Object.assign({}, state, { balance: action.payload });
   },
   [RETRIEVED_CUSTOMER]: (state, action) => {
-    return Object.assign({}, state, {customer: action.payload});
+    return Object.assign({}, state, { customer: action.payload });
   },
   [LOADING]: (state, action) => {
-    return Object.assign({}, state, {loading: action.payload});
+    return Object.assign({}, state, { loading: action.payload });
   },
-  [GOT_TRANSACTIONS_TAGS]:  (state, action) => {
+  [GOT_TRANSACTIONS_TAGS]: (state, action) => {
     console.debug('GOT_TRANSACTIONS_TAGS', action.payload);
-    return Object.assign({}, state, {transactionTags: action.payload});
+    return Object.assign({}, state, { transactionTags: action.payload });
   },
   [GOT_TRANSACTION_TAGS]: (state, action) => {
     console.debug('GOT_TRANSACTION_TAGS reducing payload', action.payload);
     if (action.payload.latestTransactionTags) {
-      const {transactionUid, tags} = action.payload.latestTransactionTags;
-      console.debug('updating transactiontag with new tag set');
-      return Object.assign({}, state, {transactionTags: _.assign({}, state.transactionTags, {[transactionUid]: action.payload.latestTransactionTags.tags})});
+      const { transactionUid } = action.payload.latestTransactionTags;
+      console.debug('updating transaction tag with new tag set');
+      return Object.assign({}, state, {
+        transactionTags: _.assign({}, state.transactionTags, {
+          [transactionUid]: action.payload.latestTransactionTags.tags
+        })
+      });
     } else {
       // Remove it
-      console.debug('removing transactiontag now having 0 tags');
-      return Object.assign({}, state, {transactionTags: _.omit(state.transactionTags, action.payload.transaction.transactionUid)});
+      console.debug('removing transaction tag now having 0 tags');
+      return Object.assign({}, state, {
+        transactionTags: _.omit(state.transactionTags, action.payload.transaction.transactionUid)
+      });
     }
   },
   [GOT_TAGS]: (state, action) => {
     console.debug('GOT_TAGS', action.payload);
-    return Object.assign({}, state, {tags: action.payload});
+    return Object.assign({}, state, { tags: action.payload });
   },
   [GOT_TAGS_LIKE]: (state, action) => {
     console.debug('GOT_TAGS_LIKE', action.payload);
-    return Object.assign({}, state, {tagSuggestions: action.payload});
+    return Object.assign({}, state, { tagSuggestions: action.payload });
   }
 }, initialState);

@@ -1,73 +1,66 @@
-const argv = require('yargs').argv
-const project = require('./project.config')
-const webpackConfig = require('./webpack.config')
-const debug = require('debug')('app:config:karma')
+const argv = require('yargs').argv;
+const webpackConfig = require('./webpack.config');
+const project = require('./project.config');
 
-debug('Creating configuration.')
+const TEST_BUNDLE = './tests/test-bundler.js';
+
 const karmaConfig = {
-  basePath : '../', // project root in relation to bin/karma.js
-  files    : [
-    {
-      pattern  : `./${project.dir_test}/test-bundler.js`,
-      watched  : false,
-      served   : true,
-      included : true
+  basePath: '../',
+  browsers: [ 'PhantomJS' ],
+  singleRun: !argv.watch,
+  files: [ {
+    pattern: TEST_BUNDLE,
+    watched: false,
+    served: true,
+    included: true
+  } ],
+  frameworks: [ 'mocha' ],
+  reporters: [ 'mocha' ],
+  coverageReporter: {
+    reporters: [
+      { type: 'text-summary' },
+      { type: 'lcov', dir: 'coverage' },
+    ],
+  },
+  preprocessors: {
+    [TEST_BUNDLE]: [ 'webpack' ]
+  },
+  logLevel: 'WARN',
+  browserConsoleLogOptions: {
+    terminal: true,
+    format: '%b %T: %m',
+    level: 'debug'
+  },
+  webpack: {
+    entry: TEST_BUNDLE,
+    devtool: 'source-map',
+    module: webpackConfig.module,
+    plugins: webpackConfig.plugins,
+    resolve: webpackConfig.resolve,
+    externals: {
+      'react/addons': 'react',
+      'react/lib/ExecutionEnvironment': 'react',
+      'react/lib/ReactContext': 'react'
     }
-  ],
-  singleRun     : !argv.watch,
-  frameworks    : ['mocha'],
-  reporters     : ['mocha'],
-  preprocessors : {
-    [`${project.dir_test}/test-bundler.js`] : ['webpack']
   },
-  browsers : ['PhantomJS'],
-  webpack  : {
-    devtool : 'cheap-module-source-map',
-    resolve : Object.assign({}, webpackConfig.resolve, {
-      alias : Object.assign({}, webpackConfig.resolve.alias, {
-        sinon : 'sinon/pkg/sinon.js'
-      })
-    }),
-    plugins : webpackConfig.plugins,
-    module  : {
-      noParse : [
-        /\/sinon\.js/
-      ],
-      loaders : webpackConfig.module.loaders.concat([
-        {
-          test   : /sinon(\\|\/)pkg(\\|\/)sinon\.js/,
-          loader : 'imports?define=>false,require=>false'
-        }
-      ])
-    },
-    // Enzyme fix, see:
-    // https://github.com/airbnb/enzyme/issues/47
-    externals : Object.assign({}, webpackConfig.externals, {
-      'react/addons'                   : true,
-      'react/lib/ExecutionEnvironment' : true,
-      'react/lib/ReactContext'         : 'window'
-    }),
-    sassLoader : webpackConfig.sassLoader
-  },
-  webpackMiddleware : {
-    noInfo : true
-  },
-  coverageReporter : {
-    reporters : project.coverage_reporters
+  webpackMiddleware: {
+    stats: 'errors-only',
+    noInfo: true
   }
-}
+
+};
 
 if (project.globals.__COVERAGE__) {
-  karmaConfig.reporters.push('coverage')
-  karmaConfig.webpack.module.preLoaders = [{
-    test    : /\.(js|jsx)$/,
-    include : new RegExp(project.dir_client),
-    exclude : /node_modules/,
-    loader  : 'babel',
-    query   : Object.assign({}, project.compiler_babel, {
-      plugins : (project.compiler_babel.plugins || []).concat('istanbul')
-    })
-  }]
+  karmaConfig.reporters.push('coverage');
+  karmaConfig.webpack.module.rules.push({
+    test: /\.(js|jsx)$/,
+    use: {
+      loader: 'istanbul-instrumenter-loader',
+      options: { esModules: true }
+    },
+    enforce: 'post',
+    exclude: /node_modules|\.spec\.js$/
+  });
 }
 
-module.exports = (cfg) => cfg.set(karmaConfig)
+module.exports = (cfg) => cfg.set(karmaConfig);

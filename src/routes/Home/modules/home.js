@@ -1,4 +1,4 @@
-import {handleActions, createAction} from "redux-actions";
+import { handleActions, createAction } from 'redux-actions';
 
 // ------------------------------------
 // Constants
@@ -11,8 +11,8 @@ const loadingAction = createAction(LOADING);
 
 export const setLoading = (isLoading) => {
   return dispatch => {
-    dispatch(loadingAction(isLoading))
-  }
+    dispatch(loadingAction(isLoading));
+  };
 };
 
 // ------------------------------------
@@ -20,11 +20,11 @@ export const setLoading = (isLoading) => {
 // ------------------------------------
 
 const initialState = {
-  loading: false,
+  loading: false
 };
 
 export default handleActions({
   [LOADING]: (state, action) => {
-    return Object.assign({}, state, {loading: action.payload});
+    return Object.assign({}, state, { loading: action.payload });
   }
 }, initialState);

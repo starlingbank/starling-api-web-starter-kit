@@ -12,7 +12,6 @@ const transactionTaggingApp = require('./transactionTagging');
 const ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
 
 const bootstrapExampleApp = (express, app) => {
-
   /**
    * A simple in-memory session store to maintain user sessions using signed cookies.
    * The access and refresh tokens are stored for each user.
@@ -20,13 +19,13 @@ const bootstrapExampleApp = (express, app) => {
    * session store that persists session state between application restarts.
    */
   app.use(session({
-      secret: config.cookieSecret,
-      resave: true,
-      saveUninitialized: true,
-      cookie: {
-        maxAge: ONE_DAY_MILLISECONDS
-      }
-    })
+    secret: config.cookieSecret,
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: ONE_DAY_MILLISECONDS
+    }
+  })
   );
 
   app.use(bodyParser.json());

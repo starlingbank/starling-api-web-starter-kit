@@ -2,13 +2,13 @@ import React from 'react';
 import _ from 'lodash';
 import { joinClasses } from '../commons/utils';
 import { Table } from 'semantic-ui-react';
-import { array, arrayOf, bool, element, func, object, oneOfType, shape, string } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export const getUniqueRowId = (row, projection) => {
   const keyParts = _.filter(_.entries(projection), ([ propertyName, { primaryKey } ]) => {
     return primaryKey;
   });
-  const keyValues = _.map(keyParts, ([ propertyName, __ ]) => {
+  const keyValues = _.map(keyParts, ([ propertyName ]) => {
     return _.get(row, propertyName);
   });
   return keyValues.join('_');
@@ -34,12 +34,15 @@ export const Item = ({ rowId, projection, selection, item, selected, rowClickHan
 };
 
 Item.propTypes = {
-  rowId: string.isRequired,
-  projection: object.isRequired,
-  selection: arrayOf(string),
-  item: object.isRequired,
-  dispatch: func // Provide this to item formatters so a cell can format a button or link to invoke a row
-  // level action
+  rowId: PropTypes.string.isRequired,
+  projection: PropTypes.object.isRequired,
+  selection: PropTypes.arrayOf(PropTypes.string),
+  item: PropTypes.object.isRequired,
+  dispatch: PropTypes.func,
+  selected: PropTypes.any,
+  rowClickHandler: PropTypes.func,
+  index: PropTypes.any,
+  context: PropTypes.any
 };
 
 /**
@@ -51,7 +54,10 @@ Item.propTypes = {
  *   ...
  * }
  */
-const QuickTable = ({ projection, selection, items, selectedItem, rowClickHandler, dispatch, isSummaryStyle, style, context }) => {
+const QuickTable = ({
+                      projection, selection, items, selectedItem,
+                      rowClickHandler, dispatch, isSummaryStyle, style, context
+                    }) => {
   if (items && items.length) {
     return <Table style={style} className={isSummaryStyle ? 'table--summary' : null}>
       <thead>
@@ -77,33 +83,24 @@ const QuickTable = ({ projection, selection, items, selectedItem, rowClickHandle
 QuickTable.propTypes = {
 
   // Defines how to render each property of each item
-  projection: shape({
-    primaryKey: bool,
-    label: oneOfType([ string, element ]),
-    formatter: func,
-    cellStyle: string,
-    cellTitle: string,
-    cellClass: string,
-    cellAction: func
+  projection: PropTypes.shape({
+    primaryKey: PropTypes.bool,
+    label: PropTypes.oneOfType([ PropTypes.string, PropTypes.element ]),
+    formatter: PropTypes.func,
+    cellStyle: PropTypes.string,
+    cellTitle: PropTypes.string,
+    cellClass: PropTypes.string,
+    cellAction: PropTypes.func
   }).isRequired,
 
-  // Which of the properties in projection to render as columns
-  selection: arrayOf(string).isRequired,
-
-  // The items to render
-  items: array.isRequired,
-
-  // The selected row item
-  selectedItem: object,
-
-  // Invoke on row click receiving the row item
-  rowClickHandler: func,
-
-  // Provide this to item formatters so a cell can format a button or link to invoke a row level action
-  dispatch: func,
-
-  // Makes the font and padding smaller
-  isSummaryStyle: bool
+  selection: PropTypes.arrayOf(PropTypes.string).isRequired,
+  items: PropTypes.array.isRequired,
+  selectedItem: PropTypes.object,
+  rowClickHandler: PropTypes.func,
+  dispatch: PropTypes.func,
+  isSummaryStyle: PropTypes.bool,
+  style: PropTypes.any,
+  context: PropTypes.any
 };
 
 export default QuickTable;
