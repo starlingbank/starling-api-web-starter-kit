@@ -48,7 +48,7 @@
     "prefer-const": [1],
     "no-alert": [2],
     "react/no-unescaped-entities": 0,
-    "no-unused-vars": 1,
+    "no-unused-vars": [0],
     "react/display-name": [0],
     "jsx-quotes": [
       1,
