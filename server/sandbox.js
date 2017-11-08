@@ -77,15 +77,6 @@ const start = (app) => {
     debug('Sandbox app started.');
   });
 
-  // const withDb = (req, res, thunk) => {
-  //   if (db) {
-  //     thunk(req, res);
-  //   } else {
-  //     // DB not ready yet
-  //     res.status(503).end();
-  //   }
-  // };
-
   const getAccessToken = (db) => persistence.getSandboxTokens(db)[ 'access_token' ];
   const starlingClient = new Starling({ apiUrl: config.sandboxApi });
 
