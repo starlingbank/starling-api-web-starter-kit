@@ -40,14 +40,14 @@ class SandboxView extends React.Component {
     const { transactions, balance, customer, loading } = this.props.sandbox;
     return (
       <Grid>
-        <br/>
-        {loading ? <Loading/>
+        <br />
+        {loading ? <Loading />
           : transactions && balance
            ? <Dashboard mode={'Sandbox'} customer={customer} transactions={transactions} balance={balance}>
               <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions}/>
             </Dashboard>
-           : <AnonymousProfile/>}
-        {error && error === 'access_denied' ? <UserDenied/> : null}
+           : <AnonymousProfile />}
+        {error && error === 'access_denied' ? <UserDenied /> : null}
       </Grid>
     );
   }

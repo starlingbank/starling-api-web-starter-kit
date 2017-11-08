@@ -24,7 +24,7 @@ const gotTagsLike = createAction(GOT_TAGS_LIKE);
 export const deleteTransactionTag = (transaction, tagToRemove) => (dispatch) => {
   return removeTransactionTagService(transaction, tagToRemove)
     .then(() => dispatch(getTransactionTags(transaction)))
-    .catch((err) => console.error('Erorr removing tag from  transaction', transaction, tagToRemove, err));
+    .catch((err) => console.error('Error removing tag from  transaction', transaction, tagToRemove, err));
 };
 
 export const addTransactionTag = (transaction, tagToAdd) => (dispatch) => {
@@ -33,7 +33,7 @@ export const addTransactionTag = (transaction, tagToAdd) => (dispatch) => {
       dispatch(getTransactionTags(transaction));
       dispatch(getTags(tagToAdd));
     })
-    .catch((err) => console.error('Erorr adding tag to transaction', transaction, tagToAdd, err));
+    .catch((err) => console.error('Error adding tag to transaction', transaction, tagToAdd, err));
 };
 
 export const getTransactionsTags = () => (dispatch) => {
@@ -178,7 +178,7 @@ export default handleActions({
     console.debug('GOT_TRANSACTION_TAGS reducing payload', action.payload);
     if (action.payload.latestTransactionTags) {
       const { transactionUid } = action.payload.latestTransactionTags;
-      console.debug('updating transactiontag with new tag set');
+      console.debug('updating transaction tag with new tag set');
       return Object.assign({}, state, {
         transactionTags: _.assign({}, state.transactionTags, {
           [transactionUid]: action.payload.latestTransactionTags.tags
@@ -186,7 +186,7 @@ export default handleActions({
       });
     } else {
       // Remove it
-      console.debug('removing transactiontag now having 0 tags');
+      console.debug('removing transaction tag now having 0 tags');
       return Object.assign({}, state, {
         transactionTags: _.omit(state.transactionTags, action.payload.transaction.transactionUid)
       });

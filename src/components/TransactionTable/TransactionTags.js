@@ -10,8 +10,6 @@ const handleOnChange = (transaction, existingTags, dispatch) => (updatedTags) =>
   const toRemove = new Set([ ...a ].filter(x => !b.has(x))); // in a, not in b
   const toAdd = new Set([ ...b ].filter(x => !a.has(x))); // in b, not in a
 
-  // console.debug('Handling tag change :: existing', existingTags, 'updated', _.map(updatedTags, 'value'), 'toRemove',
-  // toRemove, 'toAdd', toAdd);
   toRemove.forEach((r) => {
     dispatch(deleteTransactionTag({ transactionUid: transaction.id }, r));
   });

@@ -5,7 +5,7 @@ import { Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 export const getUniqueRowId = (row, projection) => {
-  const keyParts = _.filter(_.entries(projection), ([ { primaryKey } ]) => {
+  const keyParts = _.filter(_.entries(projection), ([ propertyName, { primaryKey } ]) => {
     return primaryKey;
   });
   const keyValues = _.map(keyParts, ([ propertyName ]) => {
@@ -15,7 +15,7 @@ export const getUniqueRowId = (row, projection) => {
 };
 
 export const Item = ({ rowId, projection, selection, item, selected, rowClickHandler, dispatch, index, context }) => {
-  return <tr key={`row_${rowId}`} className={selected ? 'selected' : rowClickHandler ? 'actionable' : null}
+  return <tr key={`row_${rowId}`} className={selected ? 'selected' : (rowClickHandler ? 'actionable' : null)}
              onClick={() => rowClickHandler ? rowClickHandler(item) : null}>
     {_.map(selection, (k, i) => {
       const cellDef = projection[ k ];

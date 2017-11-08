@@ -24,10 +24,10 @@ class Dashboard extends React.Component {
       <Grid.Row>
         <Link to='/'>
           <Button>{`< Back`}</Button> </Link>
-        <Header as='h1' style={{ fontSize: '3rem' }} textAlign='left' content={mode} inverted dividing/>
+        <Header as='h1' style={{ fontSize: '3rem' }} textAlign='left' content={mode} inverted dividing />
       </Grid.Row>
 
-      <Header as='h2' style={{ fontSize: '2rem' }} textAlign='left' content={name} inverted/>
+      <Header as='h2' style={{ fontSize: '2rem' }} textAlign='left' content={name} inverted />
 
       <Grid columns={2} stackable>
         {/* Customer UI */}
@@ -35,8 +35,8 @@ class Dashboard extends React.Component {
           <Segment raised style={{ margin: '15px', minHeight: '220px' }}>
             <Label as='a' color='orange' size='huge' ribbon>Account Details</Label>
             <Label as='a' className='tierLabel'>Tier 2</Label>
-            <br/>
-            {customer ? <CustomerDetails customer={customer}/> : <InsufficientScope/>}
+            <br />
+            {customer ? <CustomerDetails customer={customer}/> : <InsufficientScope />}
           </Segment>
         </Grid.Column>
 
@@ -46,7 +46,7 @@ class Dashboard extends React.Component {
             <Label color='blue' size='huge' ribbon>Balance</Label>
             <Label className='tierLabel'>Tier 1</Label>
             <Container textAlign='center'>
-              {balance ? <Balance balance={balance}/> : <Loader/>}
+              {balance ? <Balance balance={balance}/> : <Loader />}
             </Container>
           </Segment>
         </Grid.Column>
@@ -58,7 +58,7 @@ class Dashboard extends React.Component {
           <Label as='a' color='green' size='huge' ribbon>Transactions</Label>
           <Label as='a' className='tierLabel'>Tier 1</Label>
           <SelectorDropdown mode={mode}/>
-          <br/>
+          <br />
           {this.props.children || null}
         </Segment>
       </Container>
@@ -170,7 +170,7 @@ const InsufficientScope = () => {
     <div>
       <Header as='h3' icon textAlign='center'>
         <Icon name='warning sign' size='large'/>
-        Must have Tier 2 access or above.<br/>
+        Must have Tier 2 access or above.<br />
         <Header.Subheader><code>customer:read</code> permission scope required to access this
                                                      information.</Header.Subheader>
       </Header>

@@ -5,11 +5,11 @@ import Header from '../../components/Header';
 export const CoreLayout = ({ children }) =>
   <div className='fw fh'>
     <div className='headerMargin'>
-      <Header/>
+      <Header />
     </div>
     <div className='fw fh'>
       {children}
-      <br/>
+      <br />
     </div>
   </div>;
 

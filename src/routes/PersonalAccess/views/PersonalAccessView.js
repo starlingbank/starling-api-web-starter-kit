@@ -65,7 +65,7 @@ class PersonalAccessView extends React.Component {
           : <p>No transactions on record.</p>}
       </Dashboard>;
     } else {
-      return <AnonymousProfile/>;
+      return <AnonymousProfile />;
     }
   }
 
@@ -75,9 +75,9 @@ class PersonalAccessView extends React.Component {
     const { loading } = this.props.personalAccess;
     return (
       <Grid>
-        <br/>
-        {loading ? <Loading/> : this.renderDashboard()}
-        {error && error === 'access_denied' ? <UserDenied/> : null}
+        <br />
+        {loading ? <Loading /> : this.renderDashboard()}
+        {error && error === 'access_denied' ? <UserDenied /> : null}
       </Grid>
     );
   }

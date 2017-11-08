@@ -45,13 +45,13 @@ class OAuthView extends React.Component {
     const { loading, transactions, balance, customer } = this.props.oauth;
     return (
       <Grid>
-        <br/>
-        {loading ? <Loading/>
+        <br />
+        {loading ? <Loading />
           : balance && customer
            ? <Dashboard mode={'Production'} customer={customer} transactions={transactions} balance={balance}>
               <QuickTable projection={transactionsProjection} selection={transactionsSelection} items={transactions}/>
-            </Dashboard> : <AnonymousProfile/>}
-        {error && error === 'access_denied' ? <UserDenied/> : null}
+            </Dashboard> : <AnonymousProfile />}
+        {error && error === 'access_denied' ? <UserDenied /> : null}
       </Grid>
     );
   }
@@ -59,7 +59,7 @@ class OAuthView extends React.Component {
 
 const Loading = () => {
   return (
-    <Loader active size='large'/>
+    <Loader active size='large' />
   );
 };
 

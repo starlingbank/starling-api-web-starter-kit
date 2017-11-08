@@ -25,10 +25,10 @@ class HomeView extends React.Component {
                       <Icon name='users' size='large'/>
                       Production Access
                       <Header.Subheader>
-                        Onboard real customers <br/>through the OAuth flow.
+                        Onboard real customers <br />through the OAuth flow.
                       </Header.Subheader>
                     </Header>
-                    <br/>
+                    <br />
                     <Link to='/oauth'>
                       <Button color='green'>Enter</Button>
                     </Link>
@@ -40,10 +40,10 @@ class HomeView extends React.Component {
                       <Icon name='code' size='large'/>
                       Sandbox Access
                       <Header.Subheader>
-                        Test your application with <br/>your sandbox customers.
+                        Test your application with <br />your sandbox customers.
                       </Header.Subheader>
                     </Header>
-                    <br/>
+                    <br />
                     <Link to='/sandbox'>
                       <Button color='orange'>Enter</Button>
                     </Link></Segment>
@@ -54,9 +54,9 @@ class HomeView extends React.Component {
                       <Icon name='home' size='large'/>
                       Personal Access
                       <Header.Subheader>
-                        View your own account <br/>and transaction data.
+                        View your own account <br />and transaction data.
                       </Header.Subheader>
-                    </Header><br/>
+                    </Header><br />
                     <Link to='/personal'>
                       <Button color='blue'>Enter</Button>
                     </Link></Segment>
