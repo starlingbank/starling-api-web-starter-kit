@@ -17,7 +17,7 @@ const config = {
   path_base: path.resolve(__dirname, '..'),
   dir_client: 'src',
   dir_dist: 'dist',
-  dir_public: '/',
+  dir_public: 'public',
   dir_server: 'server',
   dir_test: 'tests',
   dir_main: 'main',
@@ -31,11 +31,6 @@ const config = {
   // ----------------------------------
   // Compiler Configuration
   // ----------------------------------
-  compiler_babel: {
-    cacheDirectory: true,
-    plugins: [ 'transform-runtime' ],
-    presets: [ 'es2015', 'react', 'stage-0' ]
-  },
   compiler_devtool: 'source-map',
   compiler_hash_type: 'hash',
   compiler_fail_on_warning: false,
@@ -47,7 +42,6 @@ const config = {
     colors: true
   },
   compiler_vendors: [
-    'babel-polyfill',
     'react',
     'react-redux',
     'react-router',

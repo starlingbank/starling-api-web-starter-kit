@@ -24,7 +24,7 @@ const config = {
   output: {
     path: inProject(project.dir_dist),
     filename: __DEV__ ? '[name].js' : '[name].[chunkhash].js',
-    publicPath: project.dir_public,
+    publicPath: '/',
     devtoolModuleFilenameTemplate: '/[absolute-resource-path]'
   },
   resolve: {
@@ -73,27 +73,26 @@ config.module.rules.push({
     query: {
       cacheDirectory: true,
       plugins: [
-        'babel-plugin-transform-class-properties',
-        'babel-plugin-syntax-dynamic-import',
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-syntax-dynamic-import',
         [
-          'babel-plugin-transform-runtime',
+          '@babel/plugin-transform-runtime',
           {
             helpers: true,
             polyfill: false, // we polyfill needed features in src/normalize.js
-            regenerator: true
           }
         ],
         [
-          'babel-plugin-transform-object-rest-spread',
+          '@babel/plugin-transform-spread',
           {
             useBuiltIns: true // we polyfill Object.assign in src/normalize.js
           }
         ]
       ],
       presets: [
-        'babel-preset-react',
-        'es2015', 'react', 'stage-0',
-        [ 'babel-preset-env', {
+        '@babel/preset-react',
+        ['@babel/preset-stage-3', { "decoratorsLegacy": true }],
+        [ '@babel/preset-env', {
           modules: false,
           targets: {
             ie9: true

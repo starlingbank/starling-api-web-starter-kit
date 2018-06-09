@@ -1,9 +1,8 @@
-import _ from 'lodash';
-
+const _ = require('lodash');
 const debug = require('debug')('app:transactionTagging');
 const persistence = require('./persistence');
 
-export const start = (app) => {
+const start = (app) => {
   debug('Starting transaction tagging app...');
 
   let db;
@@ -95,3 +94,5 @@ export const start = (app) => {
     });
   });
 };
+
+module.exports = { start };
