@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import '@babel/polyfill';
 import 'normalize.js';
 import chai from 'chai';
 import sinon from 'sinon';

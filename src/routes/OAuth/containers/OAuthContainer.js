@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { loadTransactions, loadBalance, loadCustomer, setLoading, doTransactionFilter } from '../modules/oauth';
+import { loadTransactions, loadBalance, loadCustomer, setLoading, doOAuthTransactionFilter } from '../modules/oauth';
 import OAuthView from '../views/OAuthView';
 
 const mapDispatchToProps = {
@@ -7,7 +7,7 @@ const mapDispatchToProps = {
   loadBalance,
   setLoading,
   loadCustomer,
-  doTransactionFilter
+  doOAuthTransactionFilter
 };
 
 const mapStateToProps = (state) => ({
