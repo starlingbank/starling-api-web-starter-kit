@@ -121,7 +121,7 @@ This can be achieved by entering your token into the `config.json` file under `p
   "personalAccessToken": "<personal access token>"
 }
 ```
-Your personal access token can be obtained from your [developer account](https://developer.starlingbank.com/token) after linking it to your customer account.
+Your personal access token can be obtained from your [developer account](https://developer.starlingbank.com/personal/list) after linking it to your customer account.
 
 ## Mobile Starter Kit Users
 
