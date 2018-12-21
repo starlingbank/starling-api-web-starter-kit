@@ -16,19 +16,23 @@ const onClick = (values, dispatch) => {
     if (keys(errors).length) {
       throw new SubmissionError(errors);
     } else {
+      const source = values.source === allPaymentsValue ? undefined : values.source;
       if (values.mode === 'Production') {
-        dispatch(doOAuthTransactionFilter(values.source));
+        dispatch(doOAuthTransactionFilter(source));
       } else if (values.mode === 'Personal Access') {
-        dispatch(doPersonalTransactionFilter(values.source));
+        dispatch(doPersonalTransactionFilter(source));
       } else {
-        dispatch(doSandboxTransactionFilter(values.source));
+        dispatch(doSandboxTransactionFilter(source));
       }
       resolve();
     }
   });
 };
 
+const allPaymentsValue = 'ALL_PAYMENTS';
+
 const options = [
+  { text: 'All Payments', value: allPaymentsValue },
   { text: 'Card Payments', value: 'MASTER_CARD' },
   { text: 'Direct Debits', value: 'DIRECT_DEBIT' },
   { text: 'Inbound Payments', value: 'FASTER_PAYMENTS_IN' },
