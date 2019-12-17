@@ -1,9 +1,10 @@
 import axios from 'axios';
+import querystring from 'querystring';
 
-export const getTransactions = (source, fromDate, toDate) => {
+export const getTransactions = (from, to) => {
   return axios({
     method: 'get',
-    url: `/api/my/transactions?source=${source}&fromDate=${fromDate}&toDate=${toDate}`
+    url: `/api/my/transactions?${querystring.stringify({ from, to })}`
   });
 };
 

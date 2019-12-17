@@ -19,16 +19,27 @@ const resolveWithJsonAtPath = (log, promise, res, path) => {
     });
 };
 
-const transactions = (req, res, client, accessToken) => {
+const transactions = async (req, res, client, accessToken) => {
+  const accountsResponse = await client.account.getAccounts({ accessToken });
+  const { accountUid, defaultCategory: categoryUid } = accountsResponse.data.accounts[0];
+
   return resolveWithJsonAtPath('my transactions',
-    client.getTransactions(accessToken, req.query.fromDate = moment().subtract(3, 'months').format('YYYY-MM-DD'),
-      req.query.toDate = moment().format('YYYY-MM-DD'), req.query.source), res, 'data._embedded.transactions');
+    client.feedItem.getFeedItemsBetween({
+      accessToken,
+      accountUid,
+      categoryUid,
+      minTransactionTimestamp: req.query.from || moment().subtract(3, 'months').toISOString(),
+      maxTransactionTimestamp: req.query.to || moment().toISOString()
+    }), res, 'data.feedItems');
 };
-const balance = (req, res, client, accessToken) => {
-  return resolveWithJsonAtPath('my balance', client.getBalance(accessToken), res, 'data');
+const balance = async (req, res, client, accessToken) => {
+  const accountsResponse = await client.account.getAccounts({ accessToken });
+  const { accountUid, defaultCategory: categoryUid } = accountsResponse.data.accounts[0];
+
+  return resolveWithJsonAtPath('my balance', client.account.getAccountBalance({ accessToken, accountUid }), res, 'data');
 };
 const customer = (req, res, client, accessToken) => {
-  return resolveWithJsonAtPath('my customer', client.getCustomer(accessToken), res, 'data');
+  return resolveWithJsonAtPath('my customer', client.identity.getAuthorisingIndividual({ accessToken }), res, 'data');
 };
 
 /**
