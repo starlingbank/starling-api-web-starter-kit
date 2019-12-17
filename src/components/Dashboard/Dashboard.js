@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Container, Grid, Header, Icon, Label, List, Loader, Segment, Statistic } from 'semantic-ui-react';
-import SelectorDropdown from '../../components/SelectorDropdown/SelectorDropdown';
 import { Link } from 'react-router';
 import { amountDisplay } from '../../commons/utils';
 import './Dashboard.scss';
@@ -57,7 +56,6 @@ class Dashboard extends React.Component {
         <Segment raised style={{ margin: '0 auto' }}>
           <Label as='a' color='green' size='huge' ribbon>Transactions</Label>
           <Label as='a' className='tierLabel'>Tier 1</Label>
-          <SelectorDropdown mode={mode}/>
           <br />
           {this.props.children || null}
         </Segment>
@@ -70,15 +68,9 @@ class Dashboard extends React.Component {
 const Balance = (props) => {
   const { balance } = props;
   if (balance) {
-    if (balance.effectiveBalance === undefined && balance.amount) {
-      return <OldBalance balance={balance}/>;
-    }
-    const effectiveBalance = balance.effectiveBalance
-      ? amountDisplay(balance.effectiveBalance, balance.currency) : '£0';
-    const clearedBalance = balance.clearedBalance
-      ? amountDisplay(balance.clearedBalance, balance.currency) : '£0';
-    const pendingTransactions = balance.pendingTransactions
-      ? amountDisplay(balance.pendingTransactions, balance.currency) : '£0';
+    const effectiveBalance = balance.effectiveBalance ? amountDisplay(balance.effectiveBalance) : '£0';
+    const clearedBalance = balance.clearedBalance ? amountDisplay(balance.clearedBalance) : '£0';
+    const pendingTransactions = balance.pendingTransactions ? amountDisplay(balance.pendingTransactions) : '£0';
     return (
       <div>
         <Statistic size='tiny' style={{ textAlign: 'center', marginTop: '-40px' }} color='blue'>
@@ -112,17 +104,6 @@ const Balance = (props) => {
       </div>
     );
   }
-};
-
-// While the API is different in demo and prod
-const OldBalance = ({ balance }) => {
-  return balance.amount ? <div>
-    <Statistic size='tiny' style={{ textAlign: 'center', marginTop: '-40px' }} color='blue'>
-      <Icon name='diamond' size='huge' style={{ textAlign: 'center', margin: '10px auto' }}/>
-      <Statistic.Value>{balance.amount ? amountDisplay(balance.amount, balance.currency) : null}</Statistic.Value>
-      <Statistic.Label>Balance</Statistic.Label>
-    </Statistic>
-  </div> : null;
 };
 
 const CustomerDetails = (props) => {

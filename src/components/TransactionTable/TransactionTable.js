@@ -5,30 +5,24 @@ import { Icon } from 'semantic-ui-react';
 import TransactionTags from './TransactionTags';
 
 export const transactionsProjection = {
-  id: { label: 'Id', primaryKey: true },
+  feedItemUid: { label: 'ID', primaryKey: true },
   sourceIcon: {
     label: '',
     cellStyle: { textAlign: 'center' },
     formatter: (transaction) => <Icon size='large' name={lookup(transaction.source).in(iconClasses).orDefault('pound')}
                                       style={{ textAlign: 'center' }}/>
   },
-  narrative: { label: 'Description', cellStyle: { width: '300px' } },
+  counterPartyName: { label: 'Description', cellStyle: { minWidth: '300px' } },
   source: { label: 'Source', formatter: (transaction, source) => lookup(source).in(sourceDisplay).orDefault('Other') },
   amount: {
     label: 'Amount',
     cellClass: 'right-aligned',
-    cellStyle: { width: '105px' },
-    formatter: ({ currency }, amount) => amountDisplay(amount, currency)
+    formatter: (transaction, amount) => amountDisplay(amount)
   },
-  balance: {
-    label: 'Balance',
-    cellStyle: { width: '105px' },
-    formatter: ({ currency }, balance) => balance ? amountDisplay(balance, currency) : null
-  },
-  created: {
+  transactionTime: {
     label: 'Date',
-    formatter: (transaction, created) => <div className='ui label'>
-      {new Date(created).toLocaleDateString('en-GB', {
+    formatter: (transaction, transactionTime) => <div className='ui label'>
+      {new Date(transactionTime).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'numeric',
         year: 'numeric'
@@ -37,12 +31,12 @@ export const transactionsProjection = {
   }
 };
 
-export const transactionsSelection = _.keys(transactionsProjection);
+export const transactionsSelection = _.keys(transactionsProjection).filter(fieldName => !fieldName.includes("Uid"));
 
 export const transactionsWithTagsProjection = _.assign({}, transactionsProjection, {
   tags: {
     label: 'Tags',
-    cellStyle: { width: '400px' },
+    cellStyle: { minWidth: '300px' },
     formatter: (transaction, __, ___, i, context) => {
       return <TransactionTags transaction={transaction} transactionTags={context.transactionTags} tags={context.tags}
                               tagSuggestions={context.tagSuggestions}/>;
@@ -50,6 +44,4 @@ export const transactionsWithTagsProjection = _.assign({}, transactionsProjectio
   }
 });
 
-export const transactionsWithTagsSelection = [
-  'sourceIcon', 'narrative', 'source', 'tags', 'amount', 'balance', 'created'
-];
+export const transactionsWithTagsSelection = [...transactionsSelection, 'tags'];

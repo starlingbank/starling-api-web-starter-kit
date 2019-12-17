@@ -1,17 +1,3 @@
-export const sourceUrlEncode = (source) => {
-  if (source === 'MASTER_CARD' || source === 'mastercard') {
-    return '/mastercard';
-  } else if (source === 'FASTER_PAYMENTS_IN' || source === 'fps/in') {
-    return '/fps/in';
-  } else if (source === 'FASTER_PAYMENTS_OUT' || source === 'fps/out') {
-    return '/fps/out';
-  } else if (source === 'DIRECT_DEBIT' || source === 'direct-debit') {
-    return '/direct-debit';
-  } else {
-    return '';
-  }
-};
-
 export const currencySymbols = {
   GBP: '£',
   USD: '$',
@@ -19,21 +5,29 @@ export const currencySymbols = {
 };
 
 export const iconClasses = {
-  MASTER_CARD: 'credit card alternative',
-  FASTER_PAYMENTS_OUT: 'send',
-  FASTER_PAYMENTS_IN: 'gift',
+  MASTER_CARD: 'credit card',
+  FASTER_PAYMENTS_OUT: 'sign out',
+  FASTER_PAYMENTS_IN: 'sign in',
+  STARLING_PAY_STRIPE: 'money bill alternate outline',
   STRIPE_FUNDING: 'plus',
-  INTEREST_PAYMENT: 'diamond',
-  DIRECT_DEBIT: 'building'
+  INTERNAL_TRANSFER: 'exchange',
+  INTEREST_PAYMENT: 'percent',
+  DIRECT_DEBIT: 'building',
+  DIRECT_CREDIT: 'building'
 };
 
 export const sourceDisplay = {
   MASTER_CARD: 'Card',
   FASTER_PAYMENTS_OUT: 'Outbound Payment',
   FASTER_PAYMENTS_IN: 'Inbound Payment',
+  STARLING_PAY_STRIPE: 'Settle Up',
   STRIPE_FUNDING: 'Account Funded',
+  INTERNAL_TRANSFER: 'Internal Transfer',
   INTEREST_PAYMENT: 'Interest',
-  DIRECT_DEBIT: 'Direct Debit'
+  DIRECT_DEBIT: 'Direct Debit',
+  DIRECT_CREDIT: 'Direct Credit',
+  CHEQUE: 'Cheque Deposit',
+  CICS_CHEQUE: 'Cheque Deposit'
 };
 
 export const lookup = key => {
@@ -48,12 +42,12 @@ export const lookup = key => {
   };
 };
 
-export const amountDisplay = (amount, currency) => {
+export const amountDisplay = ({ minorUnits, currency }) => {
   const currencySymbol = lookup(currency).in(currencySymbols).orDefault('£');
-  if (amount < 0) {
-    return '-' + currencySymbol + (-amount).toFixed(2).toString();
+  if (minorUnits < 0) {
+    return '-' + currencySymbol + (-minorUnits/100).toFixed(2).toString();
   } else {
-    return currencySymbol + amount.toFixed(2).toString();
+    return currencySymbol + (minorUnits/100).toFixed(2).toString();
   }
 };
 
