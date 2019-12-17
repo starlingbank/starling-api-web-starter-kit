@@ -56,7 +56,7 @@ The `config.json` file will look like this
 
   "SANDBOX_CONFIG_COMMENT": "Do not keep the store file in the app root dir or it will restart everytime it is written to!",
   "sandboxLocalTokenStore": "../starling-api-web-starter-kit-sandbox-token-store.json",
-  "sandboxApi": "https://api-sandbox.starlingbank.com/",
+  "sandboxApi": "https://api-sandbox.starlingbank.com",
   "sandboxAccessToken": "<sandbox access token from Starling Developers site>",
   "refreshToken": "<refresh token from Starling Developers site>",
 
@@ -96,7 +96,7 @@ For the sandbox environment setup, use the config file, `config.json`, correctly
 
   "SANDBOX_CONFIG_COMMENT": "Do not keep the store file in the app root dir or it will restart everytime it is written to!",
   "sandboxLocalTokenStore": "../starling-api-web-starter-kit-sandbox-token-store.json",
-  "sandboxApi": "https://api-sandbox.starlingbank.com/",
+  "sandboxApi": "https://api-sandbox.starlingbank.com",
 
   "sandboxAccessToken": "<sandbox access token from Starling Developers site>",
   "refreshToken": "<refresh token from Starling Developers site>"
