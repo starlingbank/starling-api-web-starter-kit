@@ -14,13 +14,15 @@
   },
   "plugins": [
     "babel",
+    "jest",
     "react",
     "promise"
   ],
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "rules": {
     "semi": [
