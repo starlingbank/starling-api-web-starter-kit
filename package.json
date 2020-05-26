@@ -13,8 +13,9 @@
     "lint": "eslint bin build config server src",
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
-    "test": "better-npm-run test",
-    "test:dev": "better-npm-run test -- --watch",
+    "test": "npm run jest -- --coverage --testResultsProcessor=jest-teamcity-reporter",
+    "test:dev": "npm run jest -- --watch --verbose false",
+    "jest": "jest --config ./config/jest.config.js",
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
     "codecov": "cat coverage/*/lcov.info | codecov"
@@ -45,13 +46,6 @@
       "env": {
         "DEBUG": "app:*"
       }
-    },
-    "test": {
-      "command": "node ./node_modules/karma/bin/karma start config/karma.config",
-      "env": {
-        "NODE_ENV": "test",
-        "DEBUG": "app:*"
-      }
     }
   },
   "repository": {
@@ -80,9 +74,7 @@
     "html-webpack-plugin": "^2.30.1",
     "imports-loader": "^0.7.1",
     "ip": "^1.1.2",
-    "istanbul-instrumenter-loader": "^3.0.0",
     "json-loader": "^0.5.4",
-    "karma-coverage-istanbul-reporter": "^1.3.0",
     "lodash": "^4.17.10",
     "lokijs": "^1.5.1",
     "moment": "^2.21.0",
@@ -113,23 +105,21 @@
     "yargs": "^6.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.49",
-    "@babel/runtime": "^7.0.0-beta.49",
     "@babel/cli": "^7.0.0-beta.49",
-    "@babel/preset-env": "^7.0.0-beta.49",
-    "@babel/preset-react": "^7.0.0-beta.49",
-    "@babel/preset-stage-3": "^7.0.0-beta.49",
-    "@babel/register": "^7.0.0-beta.49",
+    "@babel/core": "^7.0.0-beta.49",
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.49",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.49",
     "@babel/plugin-transform-runtime": "^7.0.0-beta.49",
     "@babel/plugin-transform-spread": "^7.0.0-beta.49",
     "@babel/polyfill": "^7.0.0-beta.49",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "@babel/preset-react": "^7.0.0-beta.49",
+    "@babel/preset-stage-3": "^7.0.0-beta.49",
+    "@babel/register": "^7.0.0-beta.49",
+    "@babel/runtime": "^7.0.0-beta.49",
     "babel-eslint": "^7.2.3",
+    "babel-jest": "^26.0.1",
     "babel-loader": "^8.0.0-beta.3",
-    "chai": "^4.1.2",
-    "chai-as-promised": "^7.1.1",
-    "chai-enzyme": "^0.8.0",
     "cheerio": "^0.22.0",
     "codecov": "^1.0.1",
     "enzyme": "^3.1.0",
@@ -138,20 +128,12 @@
     "eslint-plugin-promise": "^3.0.0",
     "eslint-plugin-react": "^6.0.0",
     "express": "^4.14.0",
-    "karma": "^2.0.2",
-    "karma-coverage": "^1.0.0",
-    "karma-mocha": "^1.3.0",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-webpack-with-fast-source-maps": "^1.10.2",
-    "mocha": "^5.2.0",
+    "jest": "^26.0.1",
+    "jest-teamcity-reporter": "^0.9.0",
     "nodemon": "^1.11.0",
-    "phantomjs-prebuilt": "^2.1.16",
     "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "^16.0.0",
     "redbox-react": "^1.5.0",
-    "sinon": "^4.0.2",
-    "sinon-chai": "^2.14.0",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.12.2"
   }
