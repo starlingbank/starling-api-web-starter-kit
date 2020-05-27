@@ -14,7 +14,6 @@
   },
   "plugins": [
     "babel",
-    "jest",
     "react",
     "promise"
   ],
