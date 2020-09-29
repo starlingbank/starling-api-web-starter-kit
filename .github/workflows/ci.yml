@@ -1,0 +1,32 @@
+name: Node CI
+
+on:
+  push
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10, 12, 14]
+
+    env:
+      CI: true
+
+    steps:
+    - name: Checkout ${{ github.sha }}
+      uses: starlingbank/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: starlingbank/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: npm ci
+    - name: Lint
+      run: npm run lint
+    - name: Test
+      run: npm test
+    - name: Compile
+      run: npm run compile
