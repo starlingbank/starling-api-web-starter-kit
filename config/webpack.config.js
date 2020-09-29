@@ -78,8 +78,7 @@ config.module.rules.push({
         [
           '@babel/plugin-transform-runtime',
           {
-            helpers: true,
-            polyfill: false, // we polyfill needed features in src/normalize.js
+            helpers: true
           }
         ],
         [
@@ -91,14 +90,7 @@ config.module.rules.push({
       ],
       presets: [
         '@babel/preset-react',
-        ['@babel/preset-stage-3', { "decoratorsLegacy": true }],
-        [ '@babel/preset-env', {
-          modules: false,
-          targets: {
-            ie9: true
-          },
-          uglify: true
-        } ]
+        [ '@babel/preset-env', { modules: false } ]
       ]
     }
   } ]
