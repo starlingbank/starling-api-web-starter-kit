@@ -20,7 +20,7 @@ class PersonalAccessView extends React.Component {
       customer: PropTypes.object,
       balance: PropTypes.object,
       loading: PropTypes.bool,
-      transactionTags: PropTypes.object,
+      transactionTags: PropTypes.any,
       tags: PropTypes.array,
       tagSuggestions: PropTypes.array
     }).isRequired,
